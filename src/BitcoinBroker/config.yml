@@ -1,0 +1,7 @@
+bitcoinUrl: http://localhost:8332
+account: BitcoinBroker
+brokerage:
+    btcToCoinsCommission: 0.01
+    btcToCoinsRate: 0.000001
+    coinsToBtcCommission: 0.01
+    coinsToBtcRate: 1000000
