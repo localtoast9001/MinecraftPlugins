@@ -13,8 +13,8 @@ public class BitcoinRPCTests {
 			new URL("http://localhost:8332"), 
 			"testuser",
 			"P0rsche911");
-		String result = client.getInfo();
-		fail(result);
+		BitcoinInfo info = client.getInfo();
+		assertNotNull(info);
 	}
 
 }
