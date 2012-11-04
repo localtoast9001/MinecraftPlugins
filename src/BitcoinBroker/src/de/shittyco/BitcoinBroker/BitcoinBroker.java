@@ -49,7 +49,8 @@ public class BitcoinBroker extends JavaPlugin {
 			getLogger().log(Level.SEVERE, e.getLocalizedMessage());
 		}
 		this.model.setAccount(config.getString("account"));
-		this.model.init(config.getString("rpcuser"), config.getString("rpcpassword"));
+		getLogger().info(
+			this.model.init(config.getString("rpcuser"), config.getString("rpcpassword")));
 		getLogger().info(String.format("URL: %s, Account: %s", this.model.getBitcoinUrl(), this.model.getAccount()));
 	}
 }

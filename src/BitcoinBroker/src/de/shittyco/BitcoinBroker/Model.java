@@ -5,6 +5,7 @@ package de.shittyco.BitcoinBroker;
 
 import java.io.IOException;
 import java.net.*;
+import de.shittyco.Bitcoin.*;
 
 /**
  * @author Jon Rowlett
@@ -16,7 +17,7 @@ public class Model {
 	private String user;
 	private String password;
 	private String account;
-	private HttpURLConnection connection;
+	private BitcoinClient client;
 	
 	public BrokerageInfo getBrokerageInfo() {
 		return this.brokerageInfo;
@@ -39,19 +40,19 @@ public class Model {
 	}
 	
 	public String init(String user, String password) {
-	    this.user = user;
-	    this.password = password;
-	    Authenticator.setDefault(
-	    	new BitcoinAuthenticator(this.user, this.password));
-	    
-	    try {
-	    	this.connection = (HttpURLConnection) this.bitcoinUrl.openConnection();
-	    	this.connection.setRequestMethod("POST");
-	    	this.connection.getInputStream();
-	    	return "TODO";
-	    } catch(IOException ex) {
-	    	return "Unable to connect.";
-	    }
+		this.client = new BitcoinClient(
+			this.bitcoinUrl,
+			this.user,
+			this.password);
+		try {
+			BitcoinInfo info = this.client.getInfo();
+			return String.format(
+				"Connections=%d, Balance=%s", 
+				info.getConnections(),
+				info.getBalance().toString());
+		} catch (IOException e) {
+			return e.toString();
+		}
 	}
 	
 	public float getBrokerageBalance() {
