@@ -1,7 +1,7 @@
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-
+import de.shittyco.Bitcoin.*;
 
 public class BTCTests {
 

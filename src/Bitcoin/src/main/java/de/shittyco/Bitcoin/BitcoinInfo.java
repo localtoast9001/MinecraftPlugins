@@ -1,3 +1,4 @@
+package de.shittyco.Bitcoin;
 
 public class BitcoinInfo {
 	private int version; 

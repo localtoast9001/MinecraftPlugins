@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 import java.net.URL;
 
 import org.junit.Test;
-
+import de.shittyco.Bitcoin.*;
 
 public class BitcoinRPCTests {
 

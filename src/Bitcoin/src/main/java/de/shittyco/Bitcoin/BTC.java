@@ -1,3 +1,4 @@
+package de.shittyco.Bitcoin;
 
 public class BTC extends Number implements Comparable<BTC> {
 

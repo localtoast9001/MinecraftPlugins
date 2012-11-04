@@ -1,3 +1,5 @@
+package de.shittyco.Bitcoin;
+
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 
