@@ -18,7 +18,7 @@ public class BitcoinBroker extends JavaPlugin {
 	
 	public void onEnable() {
 		this.initModel();
-		getCommand("brokerage").setExecutor(new BrokerageCommandExecutor(this.model));
+		getCommand("btc").setExecutor(new RootCommandExecutor(this.model));
 		getLogger().info(this.model.getBrokerageInfo().toString());
 	}
  
