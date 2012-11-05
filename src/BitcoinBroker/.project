@@ -3,6 +3,7 @@
 	<name>BitcoinBroker</name>
 	<comment></comment>
 	<projects>
+		<project>Bitcoin</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -1,6 +1,6 @@
 name: BitcoinBroker
 main: de.shittyco.BitcoinBroker.BitcoinBroker
-version: 1.0.20121013.0
+version: 1.0.20121103.0
 commands:
     account:
         description: Gets basic account information.

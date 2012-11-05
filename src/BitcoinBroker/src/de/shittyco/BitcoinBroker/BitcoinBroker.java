@@ -47,10 +47,25 @@ public class BitcoinBroker extends JavaPlugin {
 			this.model.setBitcoinUrl(config.getString("bitcoinUrl"));
 		} catch (MalformedURLException e) {
 			getLogger().log(Level.SEVERE, e.getLocalizedMessage());
+			return;
 		}
-		this.model.setAccount(config.getString("account"));
+		
+		String account = config.getString("account");
+		String rpcUser = config.getString("rpcuser");
+		if (rpcUser == null || rpcUser.isEmpty()) {
+			getLogger().log(Level.SEVERE, "Empty user name. Set rpcuser in BitcoinBroker/config.yml");
+			return;
+		}
+		
+		String rpcPassword = config.getString("rpcpassword");
+		if (rpcPassword == null || rpcPassword.isEmpty()) {
+			getLogger().log(Level.SEVERE, "Empty password. Set rpcpassword in BitcoinBroker/config.yml");
+			return;
+		}
+
+		this.model.setAccount(account);
 		getLogger().info(
-			this.model.init(config.getString("rpcuser"), config.getString("rpcpassword")));
+			this.model.init(rpcUser, rpcPassword));
 		getLogger().info(String.format("URL: %s, Account: %s", this.model.getBitcoinUrl(), this.model.getAccount()));
 	}
 }

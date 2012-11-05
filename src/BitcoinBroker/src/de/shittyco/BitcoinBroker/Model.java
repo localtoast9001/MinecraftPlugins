@@ -14,8 +14,6 @@ import de.shittyco.Bitcoin.*;
 public class Model {
 	private BrokerageInfo brokerageInfo = new BrokerageInfo();
 	private URL bitcoinUrl;
-	private String user;
-	private String password;
 	private String account;
 	private BitcoinClient client;
 	
@@ -42,12 +40,12 @@ public class Model {
 	public String init(String user, String password) {
 		this.client = new BitcoinClient(
 			this.bitcoinUrl,
-			this.user,
-			this.password);
+			user,
+			password);
 		try {
 			BitcoinInfo info = this.client.getInfo();
 			return String.format(
-				"Connections=%d, Balance=%s", 
+				"Connections=%d, Total Server Balance=%s", 
 				info.getConnections(),
 				info.getBalance().toString());
 		} catch (IOException e) {
