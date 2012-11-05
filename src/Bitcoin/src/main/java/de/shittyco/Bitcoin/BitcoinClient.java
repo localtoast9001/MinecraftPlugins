@@ -26,6 +26,45 @@ public class BitcoinClient {
 		return parseBitcoinInfo(parser);
 	}
 	
+	public BTC getBalance(String account) throws IOException {
+		Object args[] = account == null || account.isEmpty() ?
+			new Object[0] :
+			new Object[] { account };
+		JsonParser parser = this.call("getbalance", args);
+		return parseBalance(parser);
+	}
+	
+	public String getAccountAddress(String account) throws IOException {
+		JsonParser parser = this.call("getaccountaddress", new Object[] { account });
+		return parseAddress(parser);
+	}
+	
+	private static BTC parseBalance(JsonParser parser) throws JsonParseException, IOException {
+		parser.nextToken();
+		while (parser.nextToken() != JsonToken.END_OBJECT) {
+			String fieldName = parser.getCurrentName();
+			parser.nextToken();
+			if (fieldName.equalsIgnoreCase("result")) {
+				return new BTC(parser.getFloatValue());
+			}
+		}
+		
+		return null;
+	}
+	
+	private static String parseAddress(JsonParser parser) throws JsonParseException, IOException {
+		parser.nextToken();
+		while (parser.nextToken() != JsonToken.END_OBJECT) {
+			String fieldName = parser.getCurrentName();
+			parser.nextToken();
+			if (fieldName.equalsIgnoreCase("result")) {
+				return parser.getText();
+			}
+		}
+		
+		return null;
+	}
+	
 	private static BitcoinInfo parseBitcoinInfo(JsonParser parser) throws JsonParseException, IOException {
 		BitcoinInfo result = new BitcoinInfo();
 		parser.nextToken();

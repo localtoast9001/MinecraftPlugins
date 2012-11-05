@@ -17,4 +17,30 @@ public class BitcoinRPCTests {
 		assertNotNull(info);
 	}
 
+	@Test
+	public void testGetBalance() throws Exception {
+		BitcoinClient client = new BitcoinClient(
+			new URL("http://localhost:8332"), 
+			"testuser",
+			"P0rsche911");
+		BTC balance = client.getBalance(null);
+		assertNotNull(balance);
+		balance = client.getBalance("localtoast9001");
+		assertNotNull(balance);
+	}
+	
+	@Test
+	public void testGetAccountAddress() throws Exception {
+		BitcoinClient client = new BitcoinClient(
+			new URL("http://localhost:8332"), 
+			"testuser",
+			"P0rsche911");
+		String address = client.getAccountAddress("localtoast9001");
+		assertNotNull(address);
+		assertTrue(address.length() == 34);
+		String otherAddress = client.getAccountAddress("BitcoinBroker");
+		assertNotNull(otherAddress);
+		assertTrue(address.length() == 34);
+		assertTrue(!address.equalsIgnoreCase(otherAddress));
+	}
 }
