@@ -23,5 +23,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/jrowlett/Downloads/jackson-core-asl-1.9.10.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Bitcoin"/>
+	<classpathentry kind="lib" path="C:/Users/jrowlett/Downloads/Vault.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

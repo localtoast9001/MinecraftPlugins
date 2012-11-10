@@ -7,16 +7,29 @@ import java.net.MalformedURLException;
 import java.util.logging.Level;
 
 import org.bukkit.configuration.file.*;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.*;
+import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
+import net.milkbowl.vault.permission.Permission;
 
 /**
  * @author Jon Rowlett
  *
  */
 public class BitcoinBroker extends JavaPlugin {
-	private Model model = new Model();
+	private Model model = null;
 	
 	public void onEnable() {
+		Economy econ = this.initEconomy();
+		if (econ == null) {
+			getLogger().log(Level.SEVERE,  "Vault Plugin is not loaded. Bitcoin Broker requires it. Make sure it is installed.");
+			return;
+		}
+		
+		this.model = new Model(this, econ);
 		this.initModel();
 		getCommand("btc").setExecutor(new RootCommandExecutor(this.model));
 		getLogger().info(this.model.getBrokerageInfo().toString());
@@ -25,6 +38,20 @@ public class BitcoinBroker extends JavaPlugin {
 	public void onDisable() {
 		getLogger().info("Brokerage is now disabled.");
 	}
+	
+    private Economy initEconomy() {
+        if (this.getServer().getPluginManager().getPlugin("Vault") == null) {
+            return null;
+        }
+        
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return null;
+        }
+        
+        Economy econ = rsp.getProvider();
+        return econ;
+    }	
 	
 	private void initModel() {
 		FileConfiguration config = this.getConfig();

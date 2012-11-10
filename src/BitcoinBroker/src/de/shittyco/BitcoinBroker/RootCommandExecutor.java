@@ -3,21 +3,25 @@
  */
 package de.shittyco.BitcoinBroker;
 
+import java.util.*;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.*;;
+import org.bukkit.entity.*;
 
 /**
  * @author Jon Rowlett
  *
  */
 public class RootCommandExecutor implements CommandExecutor {
-	private PlayerCommandProcessor playerCommandProcessors[];
-	private ConsoleCommandProcessor consoleCommandProcessors[];
+	private Collection<PlayerCommandProcessor> playerCommandProcessors = new ArrayList<PlayerCommandProcessor>();
+	private Collection<ConsoleCommandProcessor> consoleCommandProcessors = new ArrayList<ConsoleCommandProcessor>();
 	
 	public RootCommandExecutor(Model model) {
-
+		this.playerCommandProcessors.add(new AccountPlayerCommandProcessor(model));
+		this.playerCommandProcessors.add(new BrokeragePlayerCommandProcessor(model));
+		this.consoleCommandProcessors.add(new BrokerageConsoleCommandProcessor(model));
 	}
 	
 	/* (non-Javadoc)
@@ -59,10 +63,12 @@ public class RootCommandExecutor implements CommandExecutor {
 	}
 	
 	private Boolean onPlayerCommand(Player player, String[] args) {
-		for(int i = 0; i < this.playerCommandProcessors.length; i++) {
-			if(this.playerCommandProcessors[i].getCommand().equalsIgnoreCase(args[0])) {
+		Iterator<PlayerCommandProcessor> i = this.playerCommandProcessors.iterator(); 
+		while(i.hasNext()) {
+			PlayerCommandProcessor e = i.next();
+			if(e.getCommand().equalsIgnoreCase(args[0])) {
 				String remainingArgs[] = skip(args, 1);
-				return this.playerCommandProcessors[i].onCommand(player, remainingArgs);
+				return e.onCommand(player, remainingArgs);
 			}
 		}
 		
@@ -70,9 +76,11 @@ public class RootCommandExecutor implements CommandExecutor {
 	}
 	
 	private Boolean onServerCommand(CommandSender sender, String[] args) {
-		for(int i=0; i < this.consoleCommandProcessors.length; i++) {
-			if(this.consoleCommandProcessors[i].getCommand().equalsIgnoreCase(args[0])) {
-				return this.consoleCommandProcessors[i].onCommand(sender, skip(args, 1));
+		Iterator<ConsoleCommandProcessor> i = this.consoleCommandProcessors.iterator();
+		while(i.hasNext()) {
+			ConsoleCommandProcessor e = i.next();
+			if(e.getCommand().equalsIgnoreCase(args[0])) {
+				return e.onCommand(sender, skip(args, 1));
 			}
 		}
 		
