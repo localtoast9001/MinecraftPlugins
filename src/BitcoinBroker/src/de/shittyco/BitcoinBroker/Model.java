@@ -10,7 +10,6 @@ import net.milkbowl.vault.economy.Economy;
 import de.shittyco.Bitcoin.*;
 import org.bukkit.entity.*;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 
 /**

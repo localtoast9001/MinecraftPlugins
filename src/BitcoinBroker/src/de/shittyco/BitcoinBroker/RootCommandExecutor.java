@@ -39,7 +39,8 @@ public class RootCommandExecutor implements CommandExecutor {
 		
 		if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (!player.hasPermission(label)) {
+            if (!player.hasPermission("BitcoinBroker." + label)) {
+            	player.sendMessage(String.format("You don't have the [%s] permission.", label));
             	return false;
             }
             
