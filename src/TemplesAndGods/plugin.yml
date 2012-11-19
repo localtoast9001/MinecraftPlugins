@@ -1,0 +1,12 @@
+name: Temples and Gods
+main: de.shittyco.TemplesAndGods
+version: 1.0.20121111.0
+commands:
+    pray:
+        description: Pray to a god.
+        usage: '/pray to [god name]'
+        permission: TemplesAndGods.pray
+        permission-message: Despite your most earnest pleading, your prayers remain unanswered.
+permissions:
+    TemplesAndGods.pray:
+        default: true

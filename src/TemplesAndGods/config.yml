@@ -1,0 +1,30 @@
+gods:
+    redgod: 
+        name: The Red God
+        shrine:
+            construction: 100
+            structure:
+            sacrifices:
+                1:
+                    item: Fish
+                    favor: 1
+                2:
+                    item: Red Flower
+                    favor: 2
+            blessings:
+                1:
+                    item: Redstone
+                    favor: 64
+                2: 
+                    item: Clay
+                    favor: 16
+                3:
+                    item: Red Flower
+                    favor: 2
+                4:
+                    item: Red Dye
+                    favor: 1
+    fortune:
+        name: The God of Fortune
+        shrine:
+            structure:
