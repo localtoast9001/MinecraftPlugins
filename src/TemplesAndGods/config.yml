@@ -1,30 +1,54 @@
 gods:
-    redgod: 
+    ==: GodsSection
+    redgod:
+        ==: God 
         name: The Red God
         shrine:
+            ==: Shrine
             construction: 100
             structure:
             sacrifices:
-                1:
-                    item: Fish
+                Fish:
+                    ==: Trade
+                    item:
+                        ==: org.bukkit.inventory.ItemStack
+                        type: RAW_FISH
                     favor: 1
-                2:
-                    item: Red Flower
+                RedFlower:
+                    ==: Trade
+                    item: 
+                        ==: org.bukkit.inventory.ItemStack
+                        type: RED_ROSE
                     favor: 2
             blessings:
-                1:
-                    item: Redstone
+                Redstone:
+                    ==: Trade
+                    item: 
+                        ==: org.bukkit.inventory.ItemStack
+                        type: REDSTONE
                     favor: 64
-                2: 
-                    item: Clay
+                Clay: 
+                    ==: Trade
+                    item: 
+                        ==: org.bukkit.inventory.ItemStack
+                        type: CLAY
                     favor: 16
-                3:
-                    item: Red Flower
+                RedFlower:
+                    ==: Trade
+                    item: 
+                        ==: org.bukkit.inventory.ItemStack
+                        type: RED_ROSE
                     favor: 2
-                4:
-                    item: Red Dye
+                RedDye:
+                    ==: Trade
+                    item: 
+                        ==: org.bukkit.inventory.ItemStack
+                        type: INK_SACK
+                        damage: 1
                     favor: 1
     fortune:
+        ==: God
         name: The God of Fortune
         shrine:
+            ==: Shrine
             structure:

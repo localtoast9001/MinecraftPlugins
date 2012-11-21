@@ -3,14 +3,15 @@ package de.shittyco.TemplesAndGods;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.serialization.SerializableAs;
 
 /**
  * Represents a god in the game.
  * @author jrowlett
  *
  */
+@SerializableAs("God")
 public class God implements ConfigurationSerializable {
 
 	private String name;
@@ -50,11 +51,8 @@ public class God implements ConfigurationSerializable {
 	public static God deserialize(Map<String, Object> args) {
 		God result = new God();
 		result.setName((String) args.get("name"));
-		if(args.containsKey("shrine")) {
-			Object raw = args.get("shrine");
-			if (raw instanceof ConfigurationSection) {
-				result.setShrine(Shrine.deserialize(((ConfigurationSection)raw).getValues(false)));
-			}
+		if (args.containsKey("shrine")) {
+			result.setShrine((Shrine) args.get("shrine"));
 		}
 		
 		return result;
