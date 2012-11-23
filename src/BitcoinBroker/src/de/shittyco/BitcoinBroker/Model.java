@@ -3,10 +3,10 @@
  */
 package de.shittyco.BitcoinBroker;
 
-import java.io.IOException;
 import java.net.*;
 
 import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
 import de.shittyco.Bitcoin.*;
 import org.bukkit.entity.*;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -64,7 +64,7 @@ public class Model {
 				"Connections=%d, Total Server Balance=%s", 
 				info.getConnections(),
 				info.getBalance().toString());
-		} catch (IOException e) {
+		} catch (ServerErrorException e) {
 			return e.toString();
 		}
 	}
@@ -72,7 +72,7 @@ public class Model {
 	public String getBrokerageBalance() {
 		try {
 			return this.client.getBalance(this.account).toString();
-		} catch (IOException e) {
+		} catch (ServerErrorException e) {
 			return "???";
 		}
 	}
@@ -94,5 +94,29 @@ public class Model {
 		player.setMetadata(
 			metadataKey, 
 			new FixedMetadataValue(this.plugin, linkedAddress));
+	}
+	
+	public void sell(Player player, BTC value) throws Exception {
+		BTC commission = BTC.mul(value, this.brokerageInfo.getBtcToCoinsCommission());
+		if (commission.equals(new BTC(0)) && this.brokerageInfo.getBtcToCoinsCommission() > 0) {
+			commission = new BTC(0.00000001);
+		}
+		
+		BTC tradeValue = BTC.sub(value, commission);
+		float coins = tradeValue.floatValue() * this.brokerageInfo.getBtcToCoinsRate();
+		this.client.move(player.getName(), this.account, value);
+		EconomyResponse response = this.econ.depositPlayer(player.getName(), coins);
+		if (!response.transactionSuccess()) {
+			this.client.move(this.account, player.getName(), value);
+			throw new Exception("Transaction failed.");
+		}
+		
+		if (!commission.equals(new BTC(0))) {
+			this.client.sendFrom(this.account, this.brokerageInfo.getProfitAddress(), commission);
+		}
+	}
+	
+	public void buy(Player player, BTC value) {
+		
 	}
 }
