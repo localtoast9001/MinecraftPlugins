@@ -30,6 +30,18 @@ public class BTC extends Number implements Comparable<BTC> {
 			(this.value == o.value ? 0 : -1) :
 			1;
 	}
+	
+	public static BTC mul(BTC operand1, float operand2) {
+		return new BTC(operand1.floatValue() * operand2);
+	}
+	
+	public static BTC sub(BTC operand1, BTC operand2) {
+		return new BTC(operand1.longValue() - operand2.longValue());
+	}
+	
+	public static BTC add(BTC operand1, BTC operand2) {
+		return new BTC(operand1.longValue() + operand2.longValue());
+	}
 
 	@Override
 	public double doubleValue() {
