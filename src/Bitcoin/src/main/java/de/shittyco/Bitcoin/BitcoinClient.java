@@ -40,16 +40,21 @@ public class BitcoinClient {
 	}
 	
 	public void move(String fromAccount, String toAccount, BTC amount) throws ServerErrorException {
+		// The API allows accounts to have negative balances. This library prevents it.
+		BTC fromAccountBalance = this.getBalance(fromAccount);
+		if (amount.longValue() > fromAccountBalance.longValue()) {
+			throw new ServerErrorException(String.format("Account [%s] has insufficient funds.", fromAccount));
+		}
+		
 		Object args[] = new Object[] {
 			fromAccount,
 			toAccount,
-			amount.longValue()
+			amount.floatValue()
 		};
 		JsonParser parser = this.call("move", args);
-		try {
-			parser.close();
-		} catch(IOException ex) {
-			throw new ServerErrorException(ex);
+		boolean result = parseBoolean(parser);
+		if (!result) {
+			throw new ServerErrorException("The Move failed.");
 		}
 	}
 	
@@ -115,6 +120,23 @@ public class BitcoinClient {
 		}
 		
 		return null;
+	}
+	
+	private static boolean parseBoolean(JsonParser parser) throws ServerErrorException {
+		try {
+			parser.nextToken();
+			while (parser.nextToken() != JsonToken.END_OBJECT) {
+				String fieldName = parser.getCurrentName();
+				parser.nextToken();
+				if (fieldName.equalsIgnoreCase("result")) {
+					return parser.getBooleanValue();
+				}
+			}
+		} catch (Exception ex) {
+			throw new ServerErrorException(ex);
+		}
+		
+		return false;		
 	}
 	
 	private static BitcoinInfo parseBitcoinInfo(JsonParser parser) throws ServerErrorException {

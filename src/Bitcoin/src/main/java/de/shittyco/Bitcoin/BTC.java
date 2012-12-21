@@ -31,6 +31,25 @@ public class BTC extends Number implements Comparable<BTC> {
 			1;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) {
+			return false;
+		}
+		
+		if(!(obj instanceof BTC)) {
+			return false;
+		}
+		
+		BTC other = (BTC)obj;
+		return this.value == other.value;
+	}
+	
+	@Override
+	public int hashCode() {
+		return (int) this.value;
+	}
+	
 	public static BTC mul(BTC operand1, float operand2) {
 		return new BTC(operand1.floatValue() * operand2);
 	}

@@ -48,7 +48,6 @@ public class BitcoinRPCTests {
 	
 	@Test
 	public void testMove() throws Exception {
-		fail("Blocked by Bug in Bitcoin.");
 		BitcoinClient client = new BitcoinClient(
 			new URL("http://localhost:8332"), 
 			"testuser",
@@ -62,8 +61,8 @@ public class BitcoinRPCTests {
 		client.move(a1Name, a2Name, amount);
 		BTC ap1 = client.getBalance(a1Name);
 		BTC ap2 = client.getBalance(a2Name);
-		assertEquals(ap1, BTC.sub(a1, amount));
-		assertEquals(ap2, BTC.add(a2, amount));
+		assertEquals(BTC.sub(a1, amount), ap1);
+		assertEquals(BTC.add(a2, amount), ap2);
 		client.move(a2Name, a1Name, amount);
 		assertEquals(a1, client.getBalance(a1Name));
 		assertEquals(a2, client.getBalance(a2Name));

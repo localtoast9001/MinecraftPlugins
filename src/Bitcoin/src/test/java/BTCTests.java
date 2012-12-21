@@ -81,4 +81,20 @@ public class BTCTests {
 			assertEquals(expected, reparsed.longValue());
 		}
 	}
+	
+	@Test
+	public void testAdd() {
+		BTC a = new BTC("0.0000001");
+		BTC b = new BTC("0.00899980");
+		
+		assertEquals(new BTC("0.00899990"), BTC.add(a, b));
+	}
+	
+	@Test
+	public void testSub() {
+		BTC a = new BTC("0.0000001");
+		BTC b = new BTC("0.00899980");
+		
+		assertEquals(new BTC("0.00899970"), BTC.sub(b, a));		
+	}
 }
