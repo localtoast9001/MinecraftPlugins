@@ -2,8 +2,6 @@ import static org.junit.Assert.*;
 
 import java.net.URL;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 import de.shittyco.Bitcoin.*;
 
