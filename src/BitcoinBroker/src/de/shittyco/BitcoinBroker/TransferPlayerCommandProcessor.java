@@ -1,30 +1,35 @@
+/**
+ * 
+ */
 package de.shittyco.BitcoinBroker;
 
 import org.bukkit.entity.Player;
-
 import de.shittyco.Bitcoin.BTC;
 
-public class SellPlayerCommandProcessor extends PlayerCommandProcessor {
+/**
+ * @author jrowlett
+ *
+ */
+public class TransferPlayerCommandProcessor extends PlayerCommandProcessor {
 
-	public SellPlayerCommandProcessor(Model model) {
-		super("sell", model);
-
+	public TransferPlayerCommandProcessor(Model model) {
+		super("transfer", model);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see de.shittyco.BitcoinBroker.PlayerCommandProcessor#onCommand(org.bukkit.entity.Player, java.lang.String[])
 	 */
 	@Override
 	public Boolean onCommand(Player sender, String[] args) {
-		if (args.length != 1) {
+		if(args.length != 1) {
 			return false;
 		}
 		
+		BTC value = new BTC(args[0]);
 		try {
-			BTC btc = new BTC(args[0]);
-			TransactionLogEntry entry = this.getModel().sell(sender, btc);
+			TransactionLogEntry entry = this.getModel().transfer(sender, value);
 			TransactionLogPrinter.print(sender, entry);
-		} catch (Exception ex) {
+		} catch(Exception ex) {
 			sender.sendMessage(ex.toString());
 		}
 		

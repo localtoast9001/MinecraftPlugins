@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.util.logging.Level;
 
 import org.bukkit.configuration.file.*;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.*;
 import net.milkbowl.vault.economy.Economy;
@@ -18,6 +19,11 @@ import net.milkbowl.vault.economy.Economy;
 public class BitcoinBroker extends JavaPlugin {
 	private Model model = null;
 	
+	public BitcoinBroker() {
+		ConfigurationSerialization.registerClass(PlayerData.class);
+		ConfigurationSerialization.registerClass(TransactionLogEntry.class);
+	}
+	
 	public void onEnable() {
 		Economy econ = this.initEconomy();
 		if (econ == null) {
@@ -27,7 +33,7 @@ public class BitcoinBroker extends JavaPlugin {
 		
 		this.model = new Model(this, econ);
 		this.initModel();
-		getCommand("btc").setExecutor(new RootCommandExecutor(this.model));
+		getCommand("btc").setExecutor(new RootCommandExecutor(this.model, this.getServer()));
 		getLogger().info(this.model.getBrokerageInfo().toString());
 	}
  
@@ -58,7 +64,7 @@ public class BitcoinBroker extends JavaPlugin {
 		brokerageInfo.setCoinsToBtcCommission((float) config.getDouble("brokerage.coinsToBtcCommission"));
 		if(!config.contains("brokerage.profitAddress")) {
 			if(brokerageInfo.getCoinsToBtcCommission() > 0 || brokerageInfo.getBtcToCoinsCommission() > 0) {
-				getLogger().log(Level.WARNING, "brokerage.profitAddress is missing. No commissions will be collected.");
+				getLogger().log(Level.WARNING, "brokerage.profitAddress is missing. No commissions can be transferred out.");
 				brokerageInfo.setBtcToCoinsCommission(0);
 				brokerageInfo.setCoinsToBtcCommission(0);
 			}
@@ -74,6 +80,7 @@ public class BitcoinBroker extends JavaPlugin {
 		}
 		
 		String account = config.getString("account");
+		String commissionAccount = config.getString("commissionAccount");
 		String rpcUser = config.getString("rpcuser");
 		if (rpcUser == null || rpcUser.isEmpty()) {
 			getLogger().log(Level.SEVERE, "Empty user name. Set rpcuser in BitcoinBroker/config.yml");
@@ -87,6 +94,7 @@ public class BitcoinBroker extends JavaPlugin {
 		}
 
 		this.model.setAccount(account);
+		this.model.setCommissionAccount(commissionAccount);
 		getLogger().info(
 			this.model.init(rpcUser, rpcPassword));
 		getLogger().info(String.format("URL: %s, Account: %s", this.model.getBitcoinUrl(), this.model.getAccount()));

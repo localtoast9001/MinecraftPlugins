@@ -8,41 +8,41 @@ package de.shittyco.BitcoinBroker;
  *
  */
 public class BrokerageInfo {
-	private float btcToCoinsRate = 0.000001f;
-	private float coinsToBtcRate = 1000000f;
-	private float btcToCoinsCommission = 0.001f;
-	private float coinsToBtcCommission = 0.001f;
+	private double btcToCoinsRate = 0.000001;
+	private double coinsToBtcRate = 1000000;
+	private double btcToCoinsCommission = 0.001;
+	private double coinsToBtcCommission = 0.001;
 	private String profitAddress;
 	
-	public float getBtcToCoinsRate() {
+	public double getBtcToCoinsRate() {
 		return this.btcToCoinsRate;
 	}
 	
-	public void setBtcToCoinsRate(float value) {
+	public void setBtcToCoinsRate(double value) {
 		this.btcToCoinsRate = value;
 	}
 	
-	public float getCoinsToBtcRate() {
+	public double getCoinsToBtcRate() {
 		return this.coinsToBtcRate;
 	}
 	
-	public void setCoinsToBtcRate(float value) { 
+	public void setCoinsToBtcRate(double value) { 
 		this.coinsToBtcRate = value;
 	}
 	
-	public float getBtcToCoinsCommission() { 
+	public double getBtcToCoinsCommission() { 
 		return this.btcToCoinsCommission;
 	}
 	
-	public void setBtcToCoinsCommission(float value) {
+	public void setBtcToCoinsCommission(double value) {
 		this.btcToCoinsCommission = value;
 	}
 	
-	public float getCoinsToBtcCommission() {
+	public double getCoinsToBtcCommission() {
 		return this.coinsToBtcCommission;
 	}
 	
-	public void setCoinsToBtcCommission(float value) {
+	public void setCoinsToBtcCommission(double value) {
 		this.coinsToBtcCommission = value;
 	}
 	

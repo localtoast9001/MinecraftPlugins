@@ -28,6 +28,7 @@ public class AccountPlayerCommandProcessor extends PlayerCommandProcessor {
 			try {
 				PlayerAccountInfo accountInfo = this.getModel().getAccountInfo(sender);
 				sender.sendMessage(accountInfo.toString());
+				TransactionLogPrinter.print(sender, accountInfo.getLatestTransactions());
 			} catch (Exception e) {
 				sender.sendMessage(e.getMessage());
 			}
@@ -40,7 +41,7 @@ public class AccountPlayerCommandProcessor extends PlayerCommandProcessor {
 				this.getModel().setLinkedAddress(sender, args[1]);
 				sender.sendMessage(String.format("Set Linked Address to [%s]", args[1]));
 			} catch (Exception e) {
-				sender.sendMessage(e.getMessage());
+				sender.sendMessage(e.toString());
 			}
 			
 			return true;

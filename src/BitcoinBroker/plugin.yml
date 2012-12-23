@@ -1,12 +1,13 @@
 name: BitcoinBroker
 main: de.shittyco.BitcoinBroker.BitcoinBroker
-version: 1.0.20121109.0
+version: 1.0.20121222.0
 softdepend: [Vault]
 commands:
     btc:
         description: All BitcoinBroker commands.
         usage: '/btc [command] [args]
 /btc brokerage - View brokerage information. 
+/btc brokerage cashout [# BTC] - Transfers brokerage profit to the configured profit address.
 /btc account [player] - View account information. 
 /btc account [player] link [address] - Sets the linked BTC address for payouts. 
 /btc sell [# coins] - Sells the specified number of coins for BTC.

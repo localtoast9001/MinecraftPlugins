@@ -1,19 +1,26 @@
 package de.shittyco.BitcoinBroker;
 
+import java.util.List;
+import java.util.Vector;
+
 import de.shittyco.Bitcoin.BTC;
 
 public class PlayerAccountInfo {
 	private String address;
 	private BTC balance;
 	private String linkedAddress;
+	private Vector<TransactionLogEntry> logEntries;
 
 	public PlayerAccountInfo(
 		String address,
 		BTC balance,
-		String linkedAddress) {
+		String linkedAddress,
+		List<TransactionLogEntry> logEntries) {
+		this.logEntries = new Vector<TransactionLogEntry>();
 		this.address = address;
 		this.balance = balance;
 		this.linkedAddress = linkedAddress;
+		this.logEntries.addAll(logEntries);
 	}
 
 	public String getAddress() {
@@ -26,6 +33,10 @@ public class PlayerAccountInfo {
 	
 	public String getLinkedAddress() {
 		return this.linkedAddress;
+	}
+	
+	public List<TransactionLogEntry> getLatestTransactions() {
+		return this.logEntries;
 	}
 	
 	@Override

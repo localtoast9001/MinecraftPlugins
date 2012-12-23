@@ -5,6 +5,7 @@ package de.shittyco.BitcoinBroker;
 
 import java.util.*;
 
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,10 +19,14 @@ public class RootCommandExecutor implements CommandExecutor {
 	private Collection<PlayerCommandProcessor> playerCommandProcessors = new ArrayList<PlayerCommandProcessor>();
 	private Collection<ConsoleCommandProcessor> consoleCommandProcessors = new ArrayList<ConsoleCommandProcessor>();
 	
-	public RootCommandExecutor(Model model) {
+	public RootCommandExecutor(Model model, Server server) {
+		this.playerCommandProcessors.add(new BuyPlayerCommandProcessor(model));
+		this.playerCommandProcessors.add(new SellPlayerCommandProcessor(model));
+		this.playerCommandProcessors.add(new TransferPlayerCommandProcessor(model));
 		this.playerCommandProcessors.add(new AccountPlayerCommandProcessor(model));
 		this.playerCommandProcessors.add(new BrokeragePlayerCommandProcessor(model));
 		this.consoleCommandProcessors.add(new BrokerageConsoleCommandProcessor(model));
+		this.consoleCommandProcessors.add(new AccountConsoleCommandProcessor(model, server));
 	}
 	
 	/* (non-Javadoc)

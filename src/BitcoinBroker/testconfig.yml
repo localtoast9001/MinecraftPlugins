@@ -1,0 +1,26 @@
+rpcuser: MC
+
+rpcpassword: 8aac7bc4-f2c6-42e3-99be-fe1c5e1fb495
+
+brokerage:
+  profitAddress: 1HhFfjKo5zpEXzvEmhz6B7tJr1FaUyEJ1M
+
+localtoast9001:
+  ==: PlayerData 
+  BTCLINKEDADDRESS: 16o7gPpGxhxUUmFQnPH2fWkqBk9DU3cxNj
+  LATESTTRANSACTIONS:
+    - ==: Transaction
+      Description: Sell 0.00010000 BTC, Fee=0.00000100 BTC
+      Time: 12/23/12 6:34 AM
+      CoinsBalance: 990.0
+      CoinsChange: 9.89999957012877E-11
+      BtcBalance: '0.40082560'
+      BtcChange: '-0.00010000'
+    - ==: Transaction
+      Description: Sell 0.00010000 BTC, Fee=0.00000100 BTC
+      Time: 12/23/12 7:50 AM
+      CoinsBalance: 1089.0
+      CoinsChange: 99.00000024995099
+      BtcBalance: '0.40072564'
+      BtcChange: '-0.00010000'
+

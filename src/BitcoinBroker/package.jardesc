@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="C:/Users/jrowlett/Downloads/de.shittyco.BitcoinBroker.20121109-0.jar"/>
+    <jar path="C:/Users/jrowlett/Downloads/de.shittyco.BitcoinBroker.20121222-0.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/BitcoinBroker/package.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>

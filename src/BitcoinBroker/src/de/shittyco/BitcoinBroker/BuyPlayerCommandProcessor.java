@@ -32,9 +32,10 @@ public class BuyPlayerCommandProcessor extends PlayerCommandProcessor {
 		
 		try {
 			BTC btc = new BTC(args[0]);
-			this.getModel().buy(sender, btc);
+			TransactionLogEntry entry = this.getModel().buy(sender, btc);
+			TransactionLogPrinter.print(sender, entry);
 		} catch (Exception ex) {
-			sender.sendMessage(ex.getMessage());
+			sender.sendMessage(ex.toString());
 		}
 		
 		return true;
