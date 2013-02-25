@@ -26,6 +26,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.help.HelpMap;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.map.MapView;
@@ -791,6 +792,18 @@ public class MockServer implements Server {
 	public boolean isHardcore() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public ItemFactory getItemFactory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getShutdownMessage() {
+		// TODO Auto-generated method stub
+		return "Goodbye";
 	}
 
 }
