@@ -1,38 +1,67 @@
 package de.shittyco.Bitcoin;
 
+/**
+ * Custom error to throw to indicate an error with processing Bitcoin
+ * transactions.
+ * @author jrowlett
+ */
 public class ServerErrorException extends Exception {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5594170348749072463L;
-	
-	private int code;
 
-	public ServerErrorException() {
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Serialization id.
+     */
+    private static final long serialVersionUID = 5594170348749072463L;
 
-	public ServerErrorException(String arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * error code.
+     */
+    private int code;
 
-	public ServerErrorException(Throwable arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Initializes a new instance of the ServerErrorException class.
+     */
+    public ServerErrorException() {
+    }
 
-	public ServerErrorException(String arg0, Throwable arg1) {
-		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Initializes a new instance of the ServerErrorException class.
+     * @param arg0 the message.
+     */
+    public ServerErrorException(final String arg0) {
+        super(arg0);
+        // TODO Auto-generated constructor stub
+    }
 
-	public int getCode() {
-		return this.code;
-	}
-	
-	public void setCode(int value) {
-		this.code = value;
-	}
+    /**
+     * Initializes a new instance of the ServerErrorException class.
+     * @param arg0 the copy
+     */
+    public ServerErrorException(final Throwable arg0) {
+        super(arg0);
+        // TODO Auto-generated constructor stub
+    }
+
+    /**
+     * Initializes a new instance of the ServerErrorException class.
+     * @param arg0 message
+     * @param arg1 inner error
+     */
+    public ServerErrorException(final String arg0, final Throwable arg1) {
+        super(arg0, arg1);
+        // TODO Auto-generated constructor stub
+    }
+
+    /**
+     * @return the error code.
+     */
+    public final int getCode() {
+        return this.code;
+    }
+
+    /**
+     * @param value - the error code.
+     */
+    public final void setCode(final int value) {
+        this.code = value;
+    }
 }
