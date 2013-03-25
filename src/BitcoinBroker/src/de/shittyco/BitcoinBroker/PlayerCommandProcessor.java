@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package de.shittyco.BitcoinBroker;
 
@@ -11,12 +11,23 @@ import org.bukkit.entity.Player;
  */
 public abstract class PlayerCommandProcessor extends CommandProcessor {
 
-	/**
-	 * @param command
-	 */
-	protected PlayerCommandProcessor(String command, Model model) {
-		super(command, model);
-	}
+    /**
+     * @param command
+     *            - the name of the command
+     * @param model
+     *            - the plug-in model
+     */
+    protected PlayerCommandProcessor(
+        final String command,
+        final Model model) {
+        super(command, model);
+    }
 
-	public abstract Boolean onCommand(Player sender, String args[]);
+    /**
+     * Processes an individual command.
+     * @param sender the player issuing the command.
+     * @param args the remaining command args
+     * @return whether or not the command was processed.
+     */
+    public abstract Boolean onCommand(Player sender, String[] args);
 }
