@@ -1,0 +1,4 @@
+src/ConsoleHost/bin/*
+src/*.suo
+src/ConsoleHost/obj/*
+src/ConsoleHost/StyleCop.Cache
