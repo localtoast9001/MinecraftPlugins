@@ -1,17 +1,16 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Resources;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ConsoleHost")]
-[assembly: AssemblyDescription("Runs an interactive console application as a service.")]
+[assembly: AssemblyTitle("ConsoleHost.Web")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Jon Rowlett")]
-[assembly: AssemblyProduct("ConsoleHost")]
-[assembly: AssemblyCopyright("Copyright ©  2013 Jon Rowlett")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ConsoleHost.Web")]
+[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,7 +20,7 @@ using System.Resources;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6a79cc95-0da3-4250-a183-79362912d0a9")]
+[assembly: Guid("64d7b52a-e59e-46b4-a4a0-fc978a26fb08")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -35,4 +34,3 @@ using System.Resources;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: NeutralResourcesLanguageAttribute("en-US")]

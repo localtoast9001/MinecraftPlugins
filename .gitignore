@@ -2,3 +2,6 @@ src/ConsoleHost/bin/*
 src/*.suo
 src/ConsoleHost/obj/*
 src/ConsoleHost/StyleCop.Cache
+src/ConsoleHost.Web/bin/*
+src/ConsoleHost.Common/obj/*
+src/ConsoleHost.Common/bin/*

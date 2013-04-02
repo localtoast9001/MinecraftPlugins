@@ -6,12 +6,12 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ConsoleHost")]
-[assembly: AssemblyDescription("Runs an interactive console application as a service.")]
+[assembly: AssemblyTitle("ConsoleHost.Common")]
+[assembly: AssemblyDescription("Common interfaces for ConsoleHost data interchange")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jon Rowlett")]
-[assembly: AssemblyProduct("ConsoleHost")]
-[assembly: AssemblyCopyright("Copyright ©  2013 Jon Rowlett")]
+[assembly: AssemblyProduct("ConsoleHost.Common")]
+[assembly: AssemblyCopyright("Copyright © Jon Rowlett 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,7 +21,7 @@ using System.Resources;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6a79cc95-0da3-4250-a183-79362912d0a9")]
+[assembly: Guid("e9fb410f-f8bd-4d7d-8c0e-5237283120f7")]
 
 // Version information for an assembly consists of the following four values:
 //

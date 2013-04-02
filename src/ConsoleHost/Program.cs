@@ -3,7 +3,7 @@
 //     Copyright (C) Jon Rowlett. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace ConsoleHost
+namespace ConsoleHost.Service
 {
     using System;
     using System.Collections.Generic;
@@ -19,14 +19,24 @@ namespace ConsoleHost
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        public static void Main()
+        public static void Main(string[] args)
         {
-            ServiceBase[] servicesToRun;
-            servicesToRun = new ServiceBase[] 
+            if (args.Length == 1 && string.Compare(args[0], "/DEBUG", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                new ConsoleHostService() 
-            };
-            ServiceBase.Run(servicesToRun);
+                var service = new ConsoleHostComponent();
+                service.Start(args);
+                Console.ReadKey();
+                service.Stop();
+            }
+            else
+            {
+                ServiceBase[] servicesToRun;
+                servicesToRun = new ServiceBase[] 
+                {
+                    new ConsoleHostService() 
+                };
+                ServiceBase.Run(servicesToRun);
+            }
         }
     }
 }

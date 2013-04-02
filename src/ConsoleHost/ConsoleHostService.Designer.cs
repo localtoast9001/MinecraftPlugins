@@ -3,7 +3,7 @@
 //     Copyright (C) Jon Rowlett. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace ConsoleHost
+namespace ConsoleHost.Service
 {
     /// <summary>
     /// Service Component to process commands from the Windows SCM.

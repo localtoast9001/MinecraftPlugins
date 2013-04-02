@@ -14,37 +14,54 @@ namespace ConsoleHost.Service
     using System.ServiceProcess;
     using System.Text;
     using System.Configuration;
+    using System.Net;
+    using System.IO;
+    using ConsoleHost.Web;
 
     /// <summary>
     /// Service Component to process commands from the Windows SCM.
     /// </summary>
-    public partial class ConsoleHostService : ServiceBase
+    public partial class ConsoleHostComponent
     {
-        private ConsoleHostComponent component = new ConsoleHostComponent();
+        /// <summary>
+        /// The process being controlled.
+        /// </summary>
+        private ProcessHost process;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConsoleHostService"/> class.
+        /// Monitors and controls the process.
         /// </summary>
-        public ConsoleHostService()
+        private ProcessMonitor monitor;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConsoleHostComponent"/> class.
+        /// </summary>
+        public ConsoleHostComponent()
         {
-            this.InitializeComponent();
         }
 
         /// <summary>
         /// When implemented in a derived class, executes when a Start command is sent to the service by the Service Control Manager (SCM) or when the operating system starts (for a service that starts automatically). Specifies actions to take when the service starts.
         /// </summary>
         /// <param name="args">Data passed by the start command.</param>
-        protected override void OnStart(string[] args)
+        public void Start(string[] args)
         {
-            this.component.Start(args);
+            this.process = new ProcessHost(
+                ConfigurationManager.AppSettings["Program"],
+                ConfigurationManager.AppSettings["Arguments"],
+                ConfigurationManager.AppSettings["StopCommand"]);
+
+            this.monitor = new WebProcessMonitor(this.process);
+            this.monitor.Start();
         }
 
         /// <summary>
         /// When implemented in a derived class, executes when a Stop command is sent to the service by the Service Control Manager (SCM). Specifies actions to take when a service stops running.
         /// </summary>
-        protected override void OnStop()
+        public void Stop()
         {
-            this.component.Stop();
+            this.process.Stop();
+            this.monitor.Stop();
         }
     }
 }
