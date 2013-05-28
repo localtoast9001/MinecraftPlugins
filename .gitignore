@@ -5,3 +5,4 @@ src/ConsoleHost/StyleCop.Cache
 src/ConsoleHost.Web/bin/*
 src/ConsoleHost.Common/obj/*
 src/ConsoleHost.Common/bin/*
+src/ConsoleHost.Web/StyleCop.Cache

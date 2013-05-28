@@ -155,7 +155,7 @@ namespace ConsoleHost.Service
         {
             if (!this.exited)
             {
-                this.process.StandardInput.Write(message.Text);
+                 this.process.StandardInput.Write(message.Text);
             }
         }
     }

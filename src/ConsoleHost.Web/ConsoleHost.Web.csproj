@@ -38,16 +38,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListenerWorkerRequest.cs" />
     <Compile Include="MemoryMessageStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebProcessMonitor.cs" />
-    <Compile Include="WebServer.cs" />
+    <Compile Include="WebServer.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConsoleHost.Common\ConsoleHost.Common.csproj">
       <Project>{AAB5367D-0768-467E-A724-17055C940BC4}</Project>
       <Name>ConsoleHost.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Default.aspx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
