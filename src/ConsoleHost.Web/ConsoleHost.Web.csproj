@@ -32,12 +32,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthorizationModule.cs" />
+    <Compile Include="Configuration\AuthorizationElement.cs" />
+    <Compile Include="Configuration\AuthorizationElementCollection.cs" />
+    <Compile Include="Configuration\AuthorizationSection.cs" />
+    <Compile Include="Configuration\RootSection.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
