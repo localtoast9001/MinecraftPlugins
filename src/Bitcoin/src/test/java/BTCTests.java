@@ -14,6 +14,11 @@ public class BTCTests {
     private static final float SMALLEST_BTC = 0.00000001f;
 
     /**
+     * smallest BTC increment as a double.
+     */
+    private static final double SMALLEST_BTCD = 0.00000001;
+
+    /**
      * Test cases for float conversion, actual and expected pairs.
      */
     private static final float[][] FLOAT_TEST_CASES =
@@ -67,7 +72,7 @@ public class BTCTests {
             assertEquals(expected, actual, 0);
         }
 
-        assertEquals(1, new BTC((double) SMALLEST_BTC).longValue());
+        assertEquals(1, new BTC(SMALLEST_BTCD).longValue());
     }
 
     /**

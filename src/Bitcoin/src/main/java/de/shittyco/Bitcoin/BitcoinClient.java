@@ -39,18 +39,36 @@ public class BitcoinClient {
         this.url = urlValue;
     }
 
+    /**
+     * Gets information about the server.
+     * @return - info structure.
+     * @throws ServerErrorException - when there is a server error.
+     */
     public final BitcoinInfo getInfo() throws ServerErrorException {
         JsonParser parser = this.call("getinfo", new Object[] {});
         return parseBitcoinInfo(parser);
     }
 
-    public final BTC getBalance(final String account) throws ServerErrorException {
+    /**
+     * Gets the balance of the account.
+     * @param account - the account name
+     * @return - the balance in BTC
+     * @throws ServerErrorException - when there is a server error.
+     */
+    public final BTC getBalance(final String account)
+        throws ServerErrorException {
         Object[] args = account == null || account.isEmpty() ? new Object[0]
                 : new Object[] {account};
         JsonParser parser = this.call("getbalance", args);
         return parseBalance(parser);
     }
 
+    /**
+     * Gets the address for the account.
+     * @param account - the account name
+     * @return - the address string
+     * @throws ServerErrorException - when there is a server error.
+     */
     public final String getAccountAddress(final String account)
         throws ServerErrorException {
         JsonParser parser = this.call("getaccountaddress",

@@ -62,7 +62,7 @@ public class BTC extends Number implements Comparable<BTC> {
      * @param source - the decimal value of BTC.
      */
     public BTC(final double source) {
-        this.value = (long) (source * SCALE);
+        this.value = (long) (source * (double) SCALE);
     }
 
     /* (non-Javadoc)
@@ -218,7 +218,7 @@ public class BTC extends Number implements Comparable<BTC> {
 
         if (index < source.length() && source.charAt(index) == '.') {
             index++;
-            long factor = SCALE;
+            long factor = SCALE / RADIX;
             for (int i = 0; i < PRECISION && index < source.length()
                     && Character.isDigit(source.charAt(index)); i++, index++) {
                 long digit = source.charAt(index) - '0';
