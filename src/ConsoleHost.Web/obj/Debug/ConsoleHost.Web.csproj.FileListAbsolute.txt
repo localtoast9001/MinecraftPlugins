@@ -1,0 +1,9 @@
+C:\code\MinecraftPlugins\src\ConsoleHost.Web\bin\Debug\ConsoleHost.Web.dll
+C:\code\MinecraftPlugins\src\ConsoleHost.Web\bin\Debug\ConsoleHost.Web.pdb
+C:\code\MinecraftPlugins\src\ConsoleHost.Web\bin\Debug\ConsoleHost.Common.dll
+C:\code\MinecraftPlugins\src\ConsoleHost.Web\bin\Debug\ConsoleHost.Common.pdb
+C:\code\MinecraftPlugins\src\ConsoleHost.Web\obj\Debug\ResolveAssemblyReference.cache
+C:\code\MinecraftPlugins\src\ConsoleHost.Web\obj\Debug\ConsoleHost.Web.dll
+C:\code\MinecraftPlugins\src\ConsoleHost.Web\obj\Debug\ConsoleHost.Web.pdb
+C:\code\MinecraftPlugins\src\ConsoleHost.Web\bin\Debug\Default.aspx
+C:\code\MinecraftPlugins\src\ConsoleHost.Web\bin\Debug\Web.config
