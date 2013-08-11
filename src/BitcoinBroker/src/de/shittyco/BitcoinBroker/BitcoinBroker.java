@@ -6,10 +6,11 @@ package de.shittyco.BitcoinBroker;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 
-import org.bukkit.configuration.file.*;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.*;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import net.milkbowl.vault.economy.Economy;
 
 /**

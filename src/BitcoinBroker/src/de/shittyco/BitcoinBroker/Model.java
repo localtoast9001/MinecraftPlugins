@@ -3,17 +3,22 @@
  */
 package de.shittyco.BitcoinBroker;
 
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
-import de.shittyco.Bitcoin.*;
 
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+
+import de.shittyco.Bitcoin.BTC;
+import de.shittyco.Bitcoin.BitcoinClient;
+import de.shittyco.Bitcoin.BitcoinInfo;
+import de.shittyco.Bitcoin.ServerErrorException;
 
 /**
  * Model for the plugin in the MVC pattern.
