@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -30,6 +31,11 @@ public class Model {
      * Minimum commission.
      */
     private static final BTC MIN_COMMISSION = new BTC(0.00000001);
+
+    /**
+     * Resource Bundle for this class.
+     */
+    private static ResourceBundle bundle = ResourceBundle.getBundle("Model");
 
     /**
      * Config properties for the brokerage.
@@ -276,7 +282,7 @@ public class Model {
         BTC tradeValue = BTC.add(value, commission);
         if (tradeValue.compareTo(this.client.getBalance(this.account)) > 0) {
             throw new Exception(
-                "Insufficient brokerage funds. Contact the server administrator.");
+                bundle.getString("Error_InsufficientFunds"));
         }
 
         double coins = tradeValue.doubleValue()
@@ -319,7 +325,7 @@ public class Model {
                 .getPlayerLinkedAddress(player);
         if (linkedAddress.length() == 0) {
             throw new Exception(
-                "There is no linked address on file. Set one with the /btc account link command.");
+                bundle.getString("Error_NoPlayerLinkedAddress"));
         }
 
         String txid = this.client.sendFrom(player.getName(), linkedAddress,
@@ -350,7 +356,7 @@ public class Model {
         String profitAddress = this.brokerageInfo.getProfitAddress();
         if (profitAddress == null || profitAddress.length() == 0) {
             throw new Exception(
-                    "There is no profit address set in config. Update BitcoinBroker/config.yml with a valid brokerage.profitAddress field.");
+                    bundle.getString("Error_NoBrokerageProfitAddress"));
         }
 
         return this.client.sendFrom(this.commissionAccount, profitAddress,

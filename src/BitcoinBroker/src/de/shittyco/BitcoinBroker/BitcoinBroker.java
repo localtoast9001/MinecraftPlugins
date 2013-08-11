@@ -4,6 +4,7 @@
 package de.shittyco.BitcoinBroker;
 
 import java.net.MalformedURLException;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,6 +20,12 @@ import net.milkbowl.vault.economy.Economy;
  *
  */
 public class BitcoinBroker extends JavaPlugin {
+
+    /**
+     * Resource Bundle for this class.
+     */
+    private static ResourceBundle bundle =
+        ResourceBundle.getBundle("BitcoinBroker");
 
     /**
      * The internal object model for the plug-in that holds state.
@@ -42,7 +49,7 @@ public class BitcoinBroker extends JavaPlugin {
         if (econ == null) {
             getLogger().log(
                 Level.SEVERE,
-                "Vault Plugin is not loaded. Bitcoin Broker requires it. Make sure it is installed.");
+                bundle.getString("Error_MissingVaultPlugin"));
             return;
         }
 
@@ -98,7 +105,7 @@ public class BitcoinBroker extends JavaPlugin {
                     || brokerageInfo.getBtcToCoinsCommission() > 0) {
                 getLogger().log(
                     Level.WARNING,
-                    "brokerage.profitAddress is missing. No commissions can be transferred out.");
+                    bundle.getString("Error_MissingBrokerageProfitAddress"));
                 brokerageInfo.setBtcToCoinsCommission(0);
                 brokerageInfo.setCoinsToBtcCommission(0);
             }

@@ -31,7 +31,8 @@ public class AccountConsoleCommandProcessor extends ConsoleCommandProcessor {
     }
 
     /* (non-Javadoc)
-     * @see de.shittyco.BitcoinBroker.ConsoleCommandProcessor#onCommand(org.bukkit.command.CommandSender, java.lang.String[])
+     * @see de.shittyco.BitcoinBroker.ConsoleCommandProcessor#onCommand(
+     *     org.bukkit.command.CommandSender, java.lang.String[])
      */
     @Override
     public final Boolean onCommand(

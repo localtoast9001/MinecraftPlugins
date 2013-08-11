@@ -1,6 +1,7 @@
 package de.shittyco.BitcoinBroker;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Vector;
 
 import de.shittyco.Bitcoin.BTC;
@@ -10,6 +11,13 @@ import de.shittyco.Bitcoin.BTC;
  * @author jrowlett
  */
 public class PlayerAccountInfo {
+
+    /**
+     * Resource bundle for this class.
+     */
+    private static ResourceBundle bundle =
+        ResourceBundle.getBundle("PlayerAccountInfo");
+
     /**
      * The player's address to send funds.
      */
@@ -87,7 +95,7 @@ public class PlayerAccountInfo {
     @Override
     public final String toString() {
         return String.format(
-            "Deposit by sending BTC here: %s\nBalance: %s\n Withdrawl BTC here: %s",
+            bundle.getString("ToStringFormat"),
             this.address,
             this.balance.toString(),
             this.linkedAddress);
