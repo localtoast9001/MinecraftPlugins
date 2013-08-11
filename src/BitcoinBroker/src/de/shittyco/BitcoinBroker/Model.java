@@ -17,7 +17,7 @@ import org.bukkit.plugin.Plugin;
 
 /**
  * Model for the plugin in the MVC pattern.
- * @author Jon Rowlett
+ * @author Jon Rowlett 
  */
 public class Model {
 
@@ -314,7 +314,7 @@ public class Model {
                 .getPlayerLinkedAddress(player);
         if (linkedAddress.length() == 0) {
             throw new Exception(
-                    "There is no linked address on file. Set one with the /btc account link command.");
+                "There is no linked address on file. Set one with the /btc account link command.");
         }
 
         String txid = this.client.sendFrom(player.getName(), linkedAddress,
