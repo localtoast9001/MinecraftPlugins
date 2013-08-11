@@ -1,5 +1,5 @@
 /**
- * 
+ * @author jrowlett
  */
 package de.shittyco.BitcoinBroker;
 

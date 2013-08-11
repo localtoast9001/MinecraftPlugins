@@ -17,7 +17,7 @@ import org.bukkit.plugin.Plugin;
 
 /**
  * Model for the plugin in the MVC pattern.
- * @author Jon Rowlett 
+ * @author Jon Rowlett
  */
 public class Model {
 

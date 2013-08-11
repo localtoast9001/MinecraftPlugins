@@ -70,7 +70,15 @@ public class BTC extends Number implements Comparable<BTC> {
      */
     @Override
     public final int compareTo(final BTC o) {
-        return this.value < o.value ? (this.value == o.value ? 0 : -1) : 1;
+        if (this.value < o.value) {
+            if (this.value == o.value) {
+                return 0;
+            } else {
+                return -1;
+            }
+        } else {
+            return 1;
+        }
     }
 
     /* (non-Javadoc)
@@ -166,7 +174,11 @@ public class BTC extends Number implements Comparable<BTC> {
     public final String toString() {
         StringBuilder sb = new StringBuilder();
         boolean minus = this.value < 0;
-        long r = minus ? -this.value : this.value;
+        long r = this.value;
+        if (minus) {
+            r = -this.value;
+        }
+
         long digit = 0;
         for (int i = 0; i < PRECISION; i++) {
             digit = r % RADIX;
@@ -237,6 +249,10 @@ public class BTC extends Number implements Comparable<BTC> {
             throw new NumberFormatException(source);
         }
 
-        return minus ? -r : r;
+        if (minus) {
+            return -r;
+        } else {
+            return r;
+        }
     }
 }

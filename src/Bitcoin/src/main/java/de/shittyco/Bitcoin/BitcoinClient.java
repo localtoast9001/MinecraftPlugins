@@ -57,8 +57,13 @@ public class BitcoinClient {
      */
     public final BTC getBalance(final String account)
         throws ServerErrorException {
-        Object[] args = account == null || account.isEmpty() ? new Object[0]
-                : new Object[] {account};
+        Object[] args = null;
+        if (account == null || account.isEmpty()) {
+            args = new Object[0];
+        } else {
+            args = new Object[] {account};
+        }
+
         JsonParser parser = this.call("getbalance", args);
         return parseBalance(parser);
     }
