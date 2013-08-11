@@ -3,8 +3,6 @@
  */
 package de.shittyco.Platforms;
 
-import java.util.logging.Level;
-
 import org.bukkit.configuration.file.*;
 import org.bukkit.plugin.java.*;
 
