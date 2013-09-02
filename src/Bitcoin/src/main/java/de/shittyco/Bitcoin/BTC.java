@@ -5,17 +5,12 @@ package de.shittyco.Bitcoin;
  * @author jrowlett
  *
  */
-public class BTC extends Number implements Comparable<BTC> {
+public class BTC extends Currency implements Comparable<BTC> {
 
     /**
      * Version UID for serialization.
      */
     private static final long serialVersionUID = -4074238215798891733L;
-
-    /**
-     * Radix to parse.
-     */
-    private static final int RADIX = 10;
 
     /**
      * Precision of BTC values.
@@ -33,36 +28,36 @@ public class BTC extends Number implements Comparable<BTC> {
     private static final double INVERSE_SCALE = 0.00000001;
 
     /**
-     * internal value storage.
+     * Name of the units of this currency.
      */
-    private long value;
+    private static final String UNITS = "BTC";
 
     /**
      * @param rawValue - the raw integer value
      */
     public BTC(final long rawValue) {
-        this.value = rawValue;
+        super(rawValue);
     }
 
     /**
      * @param source - the value string to parse.
      */
     public BTC(final String source) {
-        this.value = parseValue(source);
+        super(source, PRECISION, SCALE);
     }
 
     /**
      * @param source - the decimal value of BTC.
      */
     public BTC(final float source) {
-        this.value = (long) (source * (float) SCALE);
+        super(source, SCALE);
     }
 
     /**
      * @param source - the decimal value of BTC.
      */
     public BTC(final double source) {
-        this.value = (long) (source * (double) SCALE);
+        super(source, SCALE);
     }
 
     /* (non-Javadoc)
@@ -70,40 +65,7 @@ public class BTC extends Number implements Comparable<BTC> {
      */
     @Override
     public final int compareTo(final BTC o) {
-        if (this.value < o.value) {
-            if (this.value == o.value) {
-                return 0;
-            } else {
-                return -1;
-            }
-        } else {
-            return 1;
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public final boolean equals(final Object obj) {
-        if (obj == null) {
-            return false;
-        }
-
-        if (!(obj instanceof BTC)) {
-            return false;
-        }
-
-        BTC other = (BTC) obj;
-        return this.value == other.value;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public final int hashCode() {
-        return (int) this.value;
+        return super.compareTo(o);
     }
 
     /**
@@ -135,124 +97,23 @@ public class BTC extends Number implements Comparable<BTC> {
         return new BTC(operand1.longValue() + operand2.longValue());
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Number#doubleValue()
-     */
     @Override
-    public final double doubleValue() {
-        return (double) this.value * INVERSE_SCALE;
+    protected final int getPrecision() {
+        return PRECISION;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Number#floatValue()
-     */
     @Override
-    public final float floatValue() {
-        return (float) this.value * (float) INVERSE_SCALE;
+    protected final double getScale() {
+        return SCALE;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Number#intValue()
-     */
     @Override
-    public final int intValue() {
-        return (int) this.doubleValue();
+    protected final double getInverseScale() {
+        return INVERSE_SCALE;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Number#longValue()
-     */
     @Override
-    public final long longValue() {
-        return this.value;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public final String toString() {
-        StringBuilder sb = new StringBuilder();
-        boolean minus = this.value < 0;
-        long r = this.value;
-        if (minus) {
-            r = -this.value;
-        }
-
-        long digit = 0;
-        for (int i = 0; i < PRECISION; i++) {
-            digit = r % RADIX;
-            r /= RADIX;
-            sb.insert(0, (char) ('0' + (char) digit));
-        }
-
-        sb.insert(0, '.');
-        do {
-            digit = r % RADIX;
-            r /= RADIX;
-            sb.insert(0, (char) ('0' + (char) digit));
-        } while (r > 0);
-
-        if (minus) {
-            sb.insert(0, '-');
-        }
-
-        return sb.toString();
-    }
-
-    /**
-     * @param source value in BTC
-     * @return the parsed value for internal storage
-     */
-    private static long parseValue(final String source) {
-        long r = 0;
-        int index = 0;
-        boolean valid = false;
-        while (index < source.length()
-                && Character.isWhitespace(source.charAt(index))) {
-            index++;
-        }
-
-        boolean minus = false;
-        if (index < source.length() && source.charAt(index) == '-') {
-            minus = true;
-            index++;
-        }
-
-        while (index < source.length()
-                && Character.isDigit(source.charAt(index))) {
-            long digit = source.charAt(index) - '0';
-            r *= RADIX;
-            r += digit * SCALE;
-            index++;
-            valid = true;
-        }
-
-        if (index < source.length() && source.charAt(index) == '.') {
-            index++;
-            long factor = SCALE / RADIX;
-            for (int i = 0; i < PRECISION && index < source.length()
-                    && Character.isDigit(source.charAt(index)); i++, index++) {
-                long digit = source.charAt(index) - '0';
-                r += digit * factor;
-                factor /= RADIX;
-                valid = true;
-            }
-
-            if (index < source.length()
-                    && Character.isDigit(source.charAt(index))) {
-                valid = false;
-            }
-        }
-
-        if (!valid) {
-            throw new NumberFormatException(source);
-        }
-
-        if (minus) {
-            return -r;
-        } else {
-            return r;
-        }
+    protected final String getUnits() {
+        return UNITS;
     }
 }
