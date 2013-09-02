@@ -1,0 +1,13 @@
+name: NPCTest
+main: de.shittyco.NPCTest.NPCTestPlugin
+version: 1.0.20130901.0
+commands:
+    npctest:
+        description: All NPC commands.
+        usage: '/npctest [command] [args]
+/npctest create - Create an NPC.'
+        permission: NPCTest.npctest
+        permission-message: You do not have permission to do anything.
+permissions:
+    NPCTest.npctest:
+        default: true
