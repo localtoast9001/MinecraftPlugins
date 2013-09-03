@@ -1,0 +1,21 @@
+name: StrategyCraft
+main: de.shittyco.StrategyCraft.Plugin
+version: 1.0.20130902.0
+commands:
+    sc:
+        description: StrategyCraft commands.
+        usage: '/sc [command] [args]
+'
+        permission: StrategyCraft.commands
+        permission-message: You must be a minion.
+    scadmin:
+        description: StrategyCraft admin commands.
+        usage: '/scadmin [command] [args]
+'
+        permission: StrategyCraft.admin
+        permission-message: Access Denied. You are not an admin.
+permissions:
+    StrategyCraft.commands:
+        default: true
+    StrategyCraft.admin:
+        default: false
