@@ -6,11 +6,14 @@ src/*.suo
 src/ConsoleHost/obj/*
 src/ConsoleHost/StyleCop.Cache
 src/ConsoleHost.Web/bin/*
+src/ConsoleHost.Web/obj/*
 src/ConsoleHost.Common/obj/*
 src/ConsoleHost.Common/bin/*
 src/ConsoleHost.Web/StyleCop.Cache
 src/ConsoleHost.Web/Web.config.private
-*/obj/*
+obj/*
 .vs/*
 *.suo
 *.cache
+*.dll
+*.pdb
