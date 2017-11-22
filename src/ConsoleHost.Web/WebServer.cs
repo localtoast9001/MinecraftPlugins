@@ -3,7 +3,6 @@
 // Copyright (C) 2013 Jon Rowlett. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-
 namespace ConsoleHost.Web
 {
     using System;
@@ -13,16 +12,22 @@ namespace ConsoleHost.Web
     using System.Text;
     using System.Threading;
     using System.Web.Hosting;
+    using Common.Logging;
 
     /// <summary>
-    /// TODO: Update summary.
+    /// Hosts an ASP.Net web server in the process.
     /// </summary>
     internal class WebServer : System.ComponentModel.Component
     {
         /// <summary>
         /// Max wait time to exit.
         /// </summary>
-        private static readonly TimeSpan RequestThreadExitTimeout = new TimeSpan(0, 0, 30); // 30s. 
+        private static readonly TimeSpan RequestThreadExitTimeout = new TimeSpan(0, 0, 30); // 30s.         
+        
+        /// <summary>
+        /// The log stream.
+        /// </summary>
+        private ILogMessageStream log;
 
         /// <summary>
         /// The http listener.
@@ -40,12 +45,27 @@ namespace ConsoleHost.Web
         private Action<HttpListenerContext> requestHandlerCallback;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebServer"/> class.
+        /// Initializes a new instance of the <see cref="WebServer" /> class.
         /// </summary>
+        /// <param name="log">The log stream.</param>
         /// <param name="requestHandlerCallback">The request handler callback.</param>
-        public WebServer(Action<HttpListenerContext> requestHandlerCallback)
+        /// <exception cref="System.ArgumentNullException">log</exception>
+        public WebServer(
+            ILogMessageStream log,
+            Action<HttpListenerContext> requestHandlerCallback)
         {
-            this.requestHandlerCallback = requestHandlerCallback;
+            if (log == null)
+            {
+                throw new ArgumentNullException("log");
+            }
+
+            if (requestHandlerCallback == null)
+            {
+                throw new ArgumentNullException("requestHandlerCallback");
+            }
+
+            this.log = log;
+            this.requestHandlerCallback = requestHandlerCallback;    
         }
 
         /// <summary>
@@ -53,9 +73,12 @@ namespace ConsoleHost.Web
         /// </summary>
         public void Start()
         {
+            this.log.Log(LogMessage.Information("Starting web server..."));
             this.listener.Prefixes.Add("https://+:443/ConsoleHost/");
+            this.listener.Start();
             this.requestProcessor = new Thread(this.RequestProcessorThread);
             this.requestProcessor.Start();
+            this.log.Log(LogMessage.Information("Web server started."));
         }
 
         /// <summary>
@@ -63,8 +86,10 @@ namespace ConsoleHost.Web
         /// </summary>
         public void Stop()
         {
+            this.log.Log(LogMessage.Information("Stopping web server..."));
             this.listener.Stop();
             this.requestProcessor.Join(RequestThreadExitTimeout);
+            this.log.Log(LogMessage.Information("Web server stopped."));
         }
 
         /// <summary>
@@ -72,7 +97,6 @@ namespace ConsoleHost.Web
         /// </summary>
         private void RequestProcessorThread()
         {
-            this.listener.Start();
             do
             {
                 HttpListenerContext context = null;
@@ -84,8 +108,9 @@ namespace ConsoleHost.Web
                         break;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    this.log.Log(LogMessage.Error(ex.ToString()));
                     break;
                 }
 

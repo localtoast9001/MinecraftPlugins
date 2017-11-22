@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IProcessHost.cs" company="">
-// TODO: Update copyright text.
+// <copyright file="IProcessHost.cs" company="Jon Rowlett">
+//     Copyright (C) Jon Rowlett. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -12,12 +12,24 @@ namespace ConsoleHost
     using System.Text;
 
     /// <summary>
-    /// TODO: Update summary.
+    /// Interface for a running process.
     /// </summary>
     public interface IProcessHost : IMessageConsumer
     {
+        /// <summary>
+        /// Gets the PID.
+        /// </summary>
         int Id { get; }
+
+        /// <summary>
+        /// Gets the name of the process.
+        /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// Registers the output consumer.
+        /// </summary>
+        /// <param name="outputConsumer">The output consumer.</param>
         void RegisterOutputConsumer(IMessageConsumer outputConsumer);
     }
 }

@@ -1,14 +1,15 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="WebProcessMonitor.cs" company="Jon Rowlett">
-// TODO: Update copyright text.
+// Copyright (C) 2013 Jon Rowlett. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-
+#define TRACE
 namespace ConsoleHost.Web
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -16,6 +17,7 @@ namespace ConsoleHost.Web
     using System.Text;
     using System.Web;
     using System.Web.Hosting;
+    using Common.Logging;
 
     /// <summary>
     /// Brokers input and output between the process and a web interface.
@@ -134,6 +136,11 @@ namespace ConsoleHost.Web
         internal class ProcessMonitorHost : Component
         {
             /// <summary>
+            /// The log stream.
+            /// </summary>
+            private SourceLogMessageStream log = new SourceLogMessageStream();
+
+            /// <summary>
             /// The internal web server.
             /// </summary>
             private WebServer webServer;
@@ -154,11 +161,13 @@ namespace ConsoleHost.Web
             private ClientSponsor sponsor = new ClientSponsor();
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="ProcessMonitorHost"/> class.
+            /// Initializes a new instance of the <see cref="ProcessMonitorHost" /> class.
             /// </summary>
+            /// <param name="log">The log stream.</param>
+            /// <exception cref="System.ArgumentNullException">log</exception>
             public ProcessMonitorHost()
             {
-                this.webServer = new WebServer(this.OnRuntimeRequest);
+                this.webServer = new WebServer(this.log, this.OnRuntimeRequest);
             }
 
             /// <summary>
@@ -180,6 +189,7 @@ namespace ConsoleHost.Web
             /// <param name="processHost">The process host.</param>
             public void Start(MemoryMessageStream outputStream, ConsoleHost.IProcessHost processHost)
             {
+                this.log.Targets.Add(new ConsoleLogMessageStream());
                 this.outputStream = outputStream;
                 this.processHost = processHost;
                 AppDomain.CurrentDomain.SetData(".output", this.outputStream);
@@ -208,6 +218,12 @@ namespace ConsoleHost.Web
                 ListenerWorkerRequest request = new ListenerWorkerRequest(
                     "/ConsoleHost/",
                     context);
+                this.log.Log(LogMessage.Information(string.Format(
+                    "{0} {1} {2} {3}",
+                    context.Request.HttpMethod,
+                    context.Request.RawUrl,
+                    context.Request.UserHostAddress,
+                    context.Request.UserAgent)));
                 HttpRuntime.ProcessRequest(request);
             }
         }

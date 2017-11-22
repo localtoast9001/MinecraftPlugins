@@ -1,9 +1,9 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ProcessHost.cs" company="">
+// <copyright file="ProcessHost.cs" company="Jon Rowlett">
 // Copyright (C) Jon Rowlett. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-
+#define TRACE
 namespace ConsoleHost.Service
 {
     using System;

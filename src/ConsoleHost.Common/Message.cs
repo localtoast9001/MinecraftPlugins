@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Message.cs" company="">
+// <copyright file="Message.cs" company="Jon Rowlett">
 // Copyright (C) Jon Rowlett. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,9 +7,6 @@
 namespace ConsoleHost
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Severity of the message.
@@ -34,7 +31,7 @@ namespace ConsoleHost
     public class Message
     {
         /// <summary>
-        /// The severity of the message.
+        /// Gets or sets the severity of the message.
         /// </summary>
         public Severity Severity { get; set; }
 
@@ -44,7 +41,7 @@ namespace ConsoleHost
         public DateTime Time { get; set; }
 
         /// <summary>
-        /// Gets or set the text that was communicated.
+        /// Gets or sets the text that was communicated.
         /// </summary>
         public string Text { get; set; }
     }

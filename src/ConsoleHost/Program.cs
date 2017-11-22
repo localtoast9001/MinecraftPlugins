@@ -6,10 +6,8 @@
 namespace ConsoleHost.Service
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.ServiceProcess;
-    using System.Text;
+    using Common.Logging;
 
     /// <summary>
     /// Static class implementing the main entry point.
@@ -21,12 +19,21 @@ namespace ConsoleHost.Service
         /// </summary>
         public static void Main(string[] args)
         {
-            if (args.Length == 1 && string.Compare(args[0], "/DEBUG", StringComparison.OrdinalIgnoreCase) == 0)
+            if (args.Length == 1 && string.Equals(args[0], "/DEBUG", StringComparison.OrdinalIgnoreCase))
             {
-                var service = new ConsoleHostComponent();
-                service.Start(args);
-                Console.ReadKey();
-                service.Stop();
+                ConsoleLogMessageStream log = new ConsoleLogMessageStream();
+                try
+                {
+                    ConsoleHostComponent service = new ConsoleHostComponent();
+                    service.Start(args);
+                    Console.WriteLine("Press any key to exit.");
+                    Console.ReadKey();
+                    service.Stop();
+                }
+                catch (Exception ex)
+                {
+                    log.Log(LogMessage.Error(ex.ToString()));
+                }
             }
             else
             {

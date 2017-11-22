@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IMessageConsumer.cs" company="">
+// <copyright file="IMessageConsumer.cs" company="Jon Rowlett">
 // Copyright (C) Jon Rowlett. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------

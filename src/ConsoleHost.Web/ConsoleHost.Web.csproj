@@ -57,6 +57,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common.Logging\Common.Logging.csproj">
+      <Project>{ac4b9c8a-d103-4644-9e78-3be37b98773b}</Project>
+      <Name>Common.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ConsoleHost.Common\ConsoleHost.Common.csproj">
       <Project>{AAB5367D-0768-467E-A724-17055C940BC4}</Project>
       <Name>ConsoleHost.Common</Name>
