@@ -18,3 +18,9 @@ obj/*
 *.dll
 *.pdb
 /src/Common.Logging/obj/Debug
+/src/Common.Web.Syndication/bin
+/src/Common.Web.Syndication/obj
+/src/MinecraftServer.Status.Web/bin
+/src/MinecraftServer.Status.Web/obj
+/src/MinecraftServer.Status.Web/MinecraftServer.Status.Web.csproj.user
+/src/packages
