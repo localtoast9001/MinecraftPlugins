@@ -218,12 +218,14 @@ namespace ConsoleHost.Web
                 ListenerWorkerRequest request = new ListenerWorkerRequest(
                     "/ConsoleHost/",
                     context);
+                var clientCert = context.Request.GetClientCertificate();
                 this.log.Log(LogMessage.Information(string.Format(
-                    "{0} {1} {2} {3}",
+                    "{0} {1} {2} {3} {4}",
                     context.Request.HttpMethod,
                     context.Request.RawUrl,
                     context.Request.UserHostAddress,
-                    context.Request.UserAgent)));
+                    context.Request.UserAgent,
+                    clientCert != null ? clientCert.Subject : "(null)")));
                 HttpRuntime.ProcessRequest(request);
             }
         }
