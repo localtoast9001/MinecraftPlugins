@@ -24,3 +24,8 @@ obj/*
 /src/MinecraftServer.Status.Web/obj
 /src/MinecraftServer.Status.Web/MinecraftServer.Status.Web.csproj.user
 /src/packages
+/src/MCPing/bin/Debug
+/src/MCPing/MCPing.csproj.user
+/src/MCPing/obj/Debug
+/src/Minecraft.Management/obj/Debug
+/src/Minecraft.Management/bin/Debug
