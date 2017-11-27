@@ -9,11 +9,38 @@
     <meta name="viewport" content="width=device-width" />
     <title>Minecraft Server</title>
     <link href="feed" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed" />
+    <script src="~/Scripts/jquery-3.2.1.js" type="text/javascript"></script>
 </head>
 <body>
     <h1>Minecraft Server Status</h1>
-    <div>
-        <a href="feed">Server Events Feed.</a>
-    </div>
+    <p id="description"></p>
+    <p>Players: <span id="onlinePlayers"></span>/<span id="maxPlayers"></span></p>
+    <ul id="samplePlayers"></ul>
+    <a href="feed">Server Events Feed.</a>
+    <script type="text/javascript">
+        function refreshData() {
+            $.ajax({
+                url: "/api/v1/status",
+                success: function (result) {
+                    $("#description").text(result.Description);
+                    $("#onlinePlayers").text(result.OnlinePlayers);
+                    $("#maxPlayers").text(result.MaxPlayers);
+                    $("#samplePlayers").empty();
+                    for (i in result.SamplePlayers) {
+                        var li = $("<li>" + result.SamplePlayers[i].Name + " (" + result.SamplePlayers[i].Id + ")</li>");
+                        $("#samplePlayers").append(li);
+                    }
+
+                    setTimeout(refreshData, 15000);
+                }
+            });
+        }
+
+        function onLoad() {
+            refreshData();
+        }
+
+        window.onload = onLoad;
+    </script>
 </body>
 </html>

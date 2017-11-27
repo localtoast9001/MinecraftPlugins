@@ -102,6 +102,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +114,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\FeedController.cs" />
+    <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -121,6 +127,8 @@
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -136,6 +144,10 @@
     <ProjectReference Include="..\Common.Web.Syndication\Common.Web.Syndication.csproj">
       <Project>{aa7bb8d4-3add-473f-9833-982959de0e23}</Project>
       <Name>Common.Web.Syndication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Minecraft.Management\Minecraft.Management.csproj">
+      <Project>{a6558972-935c-43dd-80e3-3b34d0afd92e}</Project>
+      <Name>Minecraft.Management</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

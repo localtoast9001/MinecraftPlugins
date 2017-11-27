@@ -29,3 +29,7 @@ obj/*
 /src/MCPing/obj/Debug
 /src/Minecraft.Management/obj/Debug
 /src/Minecraft.Management/bin/Debug
+/src/MCPing/obj/Release
+/src/Minecraft.Management/bin/Release
+/src/Minecraft.Management/obj/Release
+*.pubxml.user
