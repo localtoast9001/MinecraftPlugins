@@ -33,3 +33,6 @@ obj/*
 /src/Minecraft.Management/bin/Release
 /src/Minecraft.Management/obj/Release
 *.pubxml.user
+/src/MCPlayer/bin/Debug
+*.user
+/src/MCPlayer/obj/Debug
