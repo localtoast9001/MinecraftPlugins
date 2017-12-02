@@ -36,3 +36,4 @@ obj/*
 /src/MCPlayer/bin/Debug
 *.user
 /src/MCPlayer/obj/Debug
+/src/MCPlayer/obj/Release
