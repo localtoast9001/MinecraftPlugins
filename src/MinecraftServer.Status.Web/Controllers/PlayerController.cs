@@ -43,9 +43,17 @@ namespace MinecraftServer.Status.Web.Controllers
                 cache.Set(id.ToString(), profile, DateTimeOffset.UtcNow + TimeSpan.FromHours(1.0));
             }
 
-            if (profile.Textures == null || profile.Textures.SkinTexture == null)
+            if (profile.Textures == null)
             {
                 return this.NotFound();
+            }
+
+            if (profile.Textures.SkinTexture == null)
+            {
+                string path = profile.Textures.Slim ? "assets/alex.png" : "assets/steve.png";
+                path = this.RequestContext.VirtualPathRoot + path;
+                return this.Redirect(new Uri(
+                    this.Request.RequestUri, path));
             }
 
             HttpWebRequest request = WebRequest.CreateHttp(profile.Textures.SkinTexture);
@@ -70,6 +78,10 @@ namespace MinecraftServer.Status.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the cache.
+        /// </summary>
+        /// <returns>The memory cache.</returns>
         private ObjectCache GetCache()
         {
             return MemoryCache.Default;

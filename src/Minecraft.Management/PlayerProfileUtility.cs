@@ -92,6 +92,7 @@ namespace Minecraft.Management
                     dynamic textureData = JsonConvert.DeserializeObject(texturesJson);
                     PlayerTextureInfo textureInfo = new PlayerTextureInfo
                     {
+                        Slim = HasOddJavaHashCode(profile.Id),
                         ProfileId = Guid.Parse((string)textureData.profileId),
                         ProfileName = textureData.profileName,
                         Timestamp = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc) + 
@@ -126,6 +127,20 @@ namespace Minecraft.Management
             }
 
             return profile;
+        }
+
+        /// <summary>
+        /// Determines whether the specified guid has an odd java hash code.
+        /// </summary>
+        /// <param name="guid">The unique identifier.</param>
+        /// <returns>
+        ///   <c>true</c> if the hash code is odd; otherwise, <c>false</c>.
+        /// </returns>
+        private static bool HasOddJavaHashCode(Guid guid)
+        {
+            byte[] raw = guid.ToByteArray();
+            byte hash = (byte)((int)raw[0] ^ (int)raw[6] ^ (int)raw[11] ^ (int)raw[15]);
+            return (hash & 0x1) != 0;
         }
     }
 }
