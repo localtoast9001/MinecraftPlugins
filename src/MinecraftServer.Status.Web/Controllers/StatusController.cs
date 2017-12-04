@@ -31,7 +31,22 @@ namespace MinecraftServer.Status.Web.Controllers
         [Route]
         public Task<ServerStatus> Get()
         {
-            return ServerPingUtility.GetStatusAsync("localhost");
+            return ServerPingUtility.GetStatusAsync(GetMinecraftServer());
+        }
+
+        /// <summary>
+        /// Gets the minecraft server.
+        /// </summary>
+        /// <returns>The host name of the server.</returns>
+        private static string GetMinecraftServer()
+        {
+            string host = ConfigurationManager.AppSettings.Get("MinecraftServer");
+            if (string.IsNullOrEmpty(host))
+            {
+                host = "localhost";
+            }
+
+            return host;
         }
     }
 }

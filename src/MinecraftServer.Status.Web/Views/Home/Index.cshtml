@@ -6,41 +6,94 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
     <title>Minecraft Server</title>
     <link href="feed" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed" />
     <script src="~/Scripts/jquery-3.2.1.js" type="text/javascript"></script>
+    <script src="~/Scripts/three.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/model.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type="text/css">
+        body {
+            padding-top: 5rem;
+        }
+
+        .starter-template {
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Minecraft Server Status</h1>
-    <p id="description"></p>
-    <p>Players: <span id="onlinePlayers"></span>/<span id="maxPlayers"></span></p>
-    <ul id="samplePlayers"></ul>
-    <a href="feed">Server Events Feed.</a>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Minecraft Server Status</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+                <li class="nav-item">
+                    <a class="nav-link" href="feed">Server Events Feed</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main role="main" class="container">
+
+        <div class="starter-template">
+            <h1>Minecraft Version <span class="badge badge-secondary" id="minecraftVersion"></span></h1>
+            <p class="lead" id="description"></p>
+            <div class="bg-light p-2">
+                <div class="p-2 text-left">
+                    <h3>Players <span class="badge badge-secondary"><span id="onlinePlayers"></span>/<span id="maxPlayers"></span></span></h3>
+                </div>
+                <div id="samplePlayers" class="d-flex flex-wrap">
+                </div>
+            </div>
+        </div>
+
+    </main><!-- /.container -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script type="text/javascript">
         function refreshData() {
             $.ajax({
                 url: "/api/v1/status",
                 success: function (result) {
                     $("#description").text(result.Description);
+                    $("#minecraftVersion").text(result.MinecraftVersion);
                     $("#onlinePlayers").text(result.OnlinePlayers);
                     $("#maxPlayers").text(result.MaxPlayers);
                     $("#samplePlayers").empty();
-                    for (i in result.SamplePlayers) {
-                        var li = $("<li>" + result.SamplePlayers[i].Name + " (" + result.SamplePlayers[i].Id + ")</li>");
+                    for (var i in result.SamplePlayers) {
+                        var li = $("<div class='card m-2' style='width: 20rem;' />");
+                        var body = $("<div class='card-body' />");
+                        li.append(body);
+                        //var playerCanvas = $("<canvas class='card-img-top border border-dark' width='100px' height='100px'>");
+                        var playerId = result.SamplePlayers[i].Id;
+                        var renderer = createHeadRenderer(playerId);
+                        var playerCanvas = $(renderer.domElement);
+                        playerCanvas.attr("class", "card-img-top border border-dark");
+                        playerCanvas.attr("style", "width: 16rem; height: 16rem;")
+                        body.append(playerCanvas);
+                        var playerName = $("<h4 class='card-title'>" + result.SamplePlayers[i].Name + "</h4>");
+                        playerName.attr("alt", result.SamplePlayers[i].Id);
+                        body.append(playerName);
                         $("#samplePlayers").append(li);
                     }
-
-                    setTimeout(refreshData, 15000);
                 }
             });
         }
 
         function onLoad() {
             refreshData();
+            setInterval(refreshData, 15000);
         }
 
-        window.onload = onLoad;
+        onLoad();
     </script>
 </body>
 </html>

@@ -118,6 +118,9 @@ namespace Minecraft.Management
 
             if (source.players != null)
             {
+                // sort the players by name since they will come back in random order.
+                List<PlayerInfo> targetPlayerList = new List<PlayerInfo>();
+
                 target.MaxPlayers = source.players.max;
                 target.OnlinePlayers = source.players.online;
                 if (source.players.sample != null)
@@ -130,8 +133,15 @@ namespace Minecraft.Management
                             Name = sourcePlayer.name
                         };
 
-                        target.SamplePlayers.Add(targetPlayer);
+                        targetPlayerList.Add(targetPlayer);
                     }
+                }
+
+                targetPlayerList.Sort(
+                    (x, y) => string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase));
+                foreach (PlayerInfo player in targetPlayerList)
+                {
+                    target.SamplePlayers.Add(player);
                 }
             }
 
