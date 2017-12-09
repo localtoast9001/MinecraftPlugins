@@ -4,25 +4,45 @@
 // </copyright>
 // -----------------------------------------------------------------------
 #define TRACE
-namespace ConsoleHost.Service
+namespace ConsoleHost.Utility
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Controlls execution and monitoring of a process.
     /// </summary>
-    internal class ProcessHost : IDisposable, IProcessHost
+    public class ProcessHost : IDisposable, IProcessHost
     {
+        /// <summary>
+        /// The process.
+        /// </summary>
         private Process process;
+
+        /// <summary>
+        /// The stop command.
+        /// </summary>
         private string stopCommand;
+
+        /// <summary>
+        /// The exited flag.
+        /// </summary>
         private bool exited;
+
+        /// <summary>
+        /// The output consumer.
+        /// </summary>
         private IMessageConsumer outputConsumer;
+
+        /// <summary>
+        /// The temporary queue.
+        /// </summary>
         private List<Message> tempQueue = new List<Message>();
 
+        /// <summary>
+        /// Gets the PID.
+        /// </summary>
         public int Id
         {
             get
@@ -31,6 +51,9 @@ namespace ConsoleHost.Service
             }
         }
 
+        /// <summary>
+        /// Gets the name of the process.
+        /// </summary>
         public string Name
         {
             get
@@ -71,6 +94,10 @@ namespace ConsoleHost.Service
             this.process.BeginOutputReadLine();
         }
 
+        /// <summary>
+        /// Registers the output consumer.
+        /// </summary>
+        /// <param name="outputConsumer">The output consumer.</param>
         public void RegisterOutputConsumer(IMessageConsumer outputConsumer)
         {
             lock (this.tempQueue)
@@ -85,11 +112,21 @@ namespace ConsoleHost.Service
             }
         }
 
-        void process_Exited(object sender, EventArgs e)
+        /// <summary>
+        /// Handles the Exited event of the process control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void process_Exited(object sender, EventArgs e)
         {
             this.exited = true;
         }
 
+        /// <summary>
+        /// Handles the ErrorDataReceived event of the process control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataReceivedEventArgs"/> instance containing the event data.</param>
         void process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             if (e == null || e.Data == null)
@@ -101,6 +138,11 @@ namespace ConsoleHost.Service
             this.InnerPost(m);
         }
 
+        /// <summary>
+        /// Handles the OutputDataReceived event of the process control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataReceivedEventArgs"/> instance containing the event data.</param>
         void process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             if (e == null || e.Data == null)
@@ -112,6 +154,10 @@ namespace ConsoleHost.Service
             this.InnerPost(m);
         }
 
+        /// <summary>
+        /// Inner implementation of the Post call.
+        /// </summary>
+        /// <param name="m">The message.</param>
         private void InnerPost(Message m)
         {
             lock (this.tempQueue)
@@ -133,6 +179,9 @@ namespace ConsoleHost.Service
             this.process = null;
         }
 
+        /// <summary>
+        /// Stops this instance.
+        /// </summary>
         public void Stop()
         {
             if (!this.exited)
@@ -151,6 +200,10 @@ namespace ConsoleHost.Service
             }
         }
 
+        /// <summary>
+        /// Posts the specified message.
+        /// </summary>
+        /// <param name="message">The message.</param>
         public void Post(Message message)
         {
             if (!this.exited)

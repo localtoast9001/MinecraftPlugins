@@ -37,3 +37,4 @@ obj/*
 *.user
 /src/MCPlayer/obj/Debug
 /src/MCPlayer/obj/Release
+/src/ConsoleHost.Utility/obj/Debug

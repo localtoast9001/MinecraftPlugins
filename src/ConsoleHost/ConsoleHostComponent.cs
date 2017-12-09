@@ -16,6 +16,7 @@ namespace ConsoleHost.Service
     using System.Configuration;
     using System.Net;
     using System.IO;
+    using ConsoleHost.Utility;
     using ConsoleHost.Web;
 
     /// <summary>

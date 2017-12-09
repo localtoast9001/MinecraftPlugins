@@ -58,7 +58,6 @@
     <Compile Include="ConsoleHostService.Designer.cs">
       <DependentUpon>ConsoleHostService.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProcessHost.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -80,6 +79,10 @@
     <ProjectReference Include="..\ConsoleHost.Common\ConsoleHost.Common.csproj">
       <Project>{AAB5367D-0768-467E-A724-17055C940BC4}</Project>
       <Name>ConsoleHost.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConsoleHost.Utility\ConsoleHost.Utility.csproj">
+      <Project>{54448b69-425d-420f-aa42-f1bd46e048be}</Project>
+      <Name>ConsoleHost.Utility</Name>
     </ProjectReference>
     <ProjectReference Include="..\ConsoleHost.Web\ConsoleHost.Web.csproj">
       <Project>{5D80A421-B2E0-4968-9038-09CF3F10E5F8}</Project>
