@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ILogMessageStream.cs" company="Jon Rowlett">
+// <copyright file="ConsoleLogMessageStream.cs" company="Jon Rowlett">
 //     Copyright (C) Jon Rowlett. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------

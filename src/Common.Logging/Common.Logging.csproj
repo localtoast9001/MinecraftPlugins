@@ -38,8 +38,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleLogMessageStream.cs" />
+    <Compile Include="EventLogMessageStream.cs" />
+    <Compile Include="FileLogMessageStream.cs" />
     <Compile Include="ILogMessageStream.cs" />
     <Compile Include="LogMessage.cs" />
+    <Compile Include="MessageStreamFilter.cs" />
+    <Compile Include="SeverityFilter.cs" />
     <Compile Include="SourceLogMessageStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
