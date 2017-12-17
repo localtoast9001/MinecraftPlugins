@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncSocketExtensions.cs" />
+    <Compile Include="MinecraftLogEntry.cs" />
+    <Compile Include="MinecraftLogReader.cs" />
     <Compile Include="PlayerInfo.cs" />
     <Compile Include="PlayerProfile.cs" />
     <Compile Include="PlayerProfileProperty.cs" />

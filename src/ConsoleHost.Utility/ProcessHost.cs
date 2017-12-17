@@ -63,15 +63,17 @@ namespace ConsoleHost.Utility
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessHost"/> class.
+        /// Initializes a new instance of the <see cref="ProcessHost" /> class.
         /// </summary>
         /// <param name="program">The program.</param>
         /// <param name="arguments">The arguments.</param>
         /// <param name="stopCommand">The stop command.</param>
+        /// <param name="workingDirectory">The working directory.</param>
         public ProcessHost(
             string program,
             string arguments,
-            string stopCommand)
+            string stopCommand,
+            string workingDirectory = null)
         {
             this.stopCommand = stopCommand;
             ProcessStartInfo startInfo = new ProcessStartInfo
@@ -84,6 +86,11 @@ namespace ConsoleHost.Utility
                 UseShellExecute = false, 
                 FileName = program
             };
+
+            if (!string.IsNullOrEmpty(workingDirectory))
+            {
+                startInfo.WorkingDirectory = workingDirectory;
+            }
 
             this.process = Process.Start(startInfo);
             this.process.OutputDataReceived += new DataReceivedEventHandler(process_OutputDataReceived);

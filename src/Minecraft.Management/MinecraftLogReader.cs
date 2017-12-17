@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 
-namespace MinecraftServer.Status.Web
+namespace Minecraft.Management
 {
     public class MinecraftLogReader : IDisposable
     {
@@ -20,9 +20,8 @@ namespace MinecraftServer.Status.Web
         {
         }
 
-        public MinecraftLogEntry ReadNext()
+        public static MinecraftLogEntry ParseLine(string line)
         {
-            string line = this.inner.ReadLine();
             if (string.IsNullOrEmpty(line))
             {
                 return null;
@@ -78,6 +77,12 @@ namespace MinecraftServer.Status.Web
                 Source = source,
                 Text = text
             };
+        }
+
+        public MinecraftLogEntry ReadNext()
+        {
+            string line = this.inner.ReadLine();
+            return ParseLine(line);
         }
 
         public void Dispose()

@@ -38,3 +38,9 @@ obj/*
 /src/MCPlayer/obj/Debug
 /src/MCPlayer/obj/Release
 /src/ConsoleHost.Utility/obj/Debug
+/src/Common.Logging/bin/Debug
+/src/Common.Logging.Test/bin/Debug
+/src/Common.Logging.Test/obj/Debug
+/src/MinecraftServer.Service/bin/Debug
+/src/MinecraftServer.Service/obj/Debug
+/src/TestResults/

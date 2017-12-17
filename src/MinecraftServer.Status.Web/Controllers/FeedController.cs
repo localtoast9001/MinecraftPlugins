@@ -12,8 +12,9 @@ namespace MinecraftServer.Status.Web.Controllers
     using System.Net.Http;
     using System.Web.Http;
     using System.Web.Http.Results;
-    using Common.Web.Syndication;
     using System.Configuration;
+    using Common.Web.Syndication;
+    using Minecraft.Management;
 
     /// <summary>
     /// Publishes an Atom feed for server events based on the latest log.
