@@ -44,3 +44,4 @@ obj/*
 /src/MinecraftServer.Service/bin/Debug
 /src/MinecraftServer.Service/obj/Debug
 /src/TestResults/
+/src/ConsoleHost.Utility/bin/Debug

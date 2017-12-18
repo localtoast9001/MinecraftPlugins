@@ -41,28 +41,6 @@ namespace ConsoleHost.Utility
         private List<Message> tempQueue = new List<Message>();
 
         /// <summary>
-        /// Gets the PID.
-        /// </summary>
-        public int Id
-        {
-            get
-            {
-                return this.process.Id;
-            }
-        }
-
-        /// <summary>
-        /// Gets the name of the process.
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.process.ProcessName;
-            }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ProcessHost" /> class.
         /// </summary>
         /// <param name="program">The program.</param>
@@ -93,12 +71,42 @@ namespace ConsoleHost.Utility
             }
 
             this.process = Process.Start(startInfo);
-            this.process.OutputDataReceived += new DataReceivedEventHandler(process_OutputDataReceived);
-            this.process.ErrorDataReceived += new DataReceivedEventHandler(process_ErrorDataReceived);
-            this.process.Exited += new EventHandler(process_Exited);
+            this.process.OutputDataReceived += new DataReceivedEventHandler(this.OnProcessOutputDataReceived);
+            this.process.ErrorDataReceived += new DataReceivedEventHandler(this.OnProcessErrorDataReceived);
+            this.process.Exited += new EventHandler(this.OnProcessExited);
             this.process.EnableRaisingEvents = true;
             this.process.BeginErrorReadLine();
             this.process.BeginOutputReadLine();
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="ProcessHost"/> class.
+        /// </summary>
+        ~ProcessHost()
+        {
+            this.Dispose(false);
+        }
+
+        /// <summary>
+        /// Gets the PID.
+        /// </summary>
+        public int Id
+        {
+            get
+            {
+                return this.process.Id;
+            }
+        }
+
+        /// <summary>
+        /// Gets the name of the process.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this.process.ProcessName;
+            }
         }
 
         /// <summary>
@@ -120,11 +128,69 @@ namespace ConsoleHost.Utility
         }
 
         /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Stops this instance.
+        /// </summary>
+        public void Stop()
+        {
+            if (!this.exited)
+            {
+                Message stopMessage = new Message
+                {
+                    Text = this.stopCommand + Environment.NewLine,
+                    Time = DateTime.UtcNow
+                };
+
+                this.Post(stopMessage);
+                if (!this.process.WaitForExit(30000))
+                {
+                    this.process.Kill();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Posts the specified message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void Post(Message message)
+        {
+            if (!this.exited)
+            {
+                this.process.StandardInput.Write(message.Text);
+            }
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing">
+        /// <c>true</c> to release both managed and unmanaged resources; 
+        /// <c>false</c> to release only unmanaged resources.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.process.Dispose();
+                this.process = null;
+            }
+        }
+
+        /// <summary>
         /// Handles the Exited event of the process control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void process_Exited(object sender, EventArgs e)
+        private void OnProcessExited(object sender, EventArgs e)
         {
             this.exited = true;
         }
@@ -134,7 +200,7 @@ namespace ConsoleHost.Utility
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataReceivedEventArgs"/> instance containing the event data.</param>
-        void process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        private void OnProcessErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             if (e == null || e.Data == null)
             {
@@ -150,7 +216,7 @@ namespace ConsoleHost.Utility
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataReceivedEventArgs"/> instance containing the event data.</param>
-        void process_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        private void OnProcessOutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             if (e == null || e.Data == null)
             {
@@ -177,45 +243,6 @@ namespace ConsoleHost.Utility
                 {
                     this.tempQueue.Add(m);
                 }
-            }
-        }
-
-        public void Dispose()
-        {
-            this.process.Dispose();
-            this.process = null;
-        }
-
-        /// <summary>
-        /// Stops this instance.
-        /// </summary>
-        public void Stop()
-        {
-            if (!this.exited)
-            {
-                Message stopMessage = new Message
-                {
-                    Text = stopCommand + "\r\n", 
-                    Time = DateTime.UtcNow
-                };
-
-                this.Post(stopMessage);
-                if (!this.process.WaitForExit(30000))
-                {
-                    this.process.Kill();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Posts the specified message.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        public void Post(Message message)
-        {
-            if (!this.exited)
-            {
-                 this.process.StandardInput.Write(message.Text);
             }
         }
     }
