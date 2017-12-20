@@ -45,3 +45,6 @@ obj/*
 /src/MinecraftServer.Service/obj/Debug
 /src/TestResults/
 /src/ConsoleHost.Utility/bin/Debug
+/src/Common.Web.Owin/bin/Debug
+/src/Common.Web.Owin/obj/Debug
+/src/Common.Web.Server/obj/Debug
