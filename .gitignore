@@ -50,3 +50,4 @@ obj/*
 /src/Common.Web.Server/obj/Debug
 /src/Common.Web.Owin.Middleware/bin/Debug
 /src/Common.Web.Owin.Middleware/obj/Debug
+/src/Common.Web.Server/bin/Debug

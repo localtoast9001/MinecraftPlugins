@@ -17,14 +17,14 @@ namespace Common.Web.Server
     using Common.Web.Owin;
 
     using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
-    using MidFunc = System.Func<System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>, System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>;
-    using MidFactory = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Func<System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>, System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>>;
     using BuildFunc = System.Action<System.Func<System.Collections.Generic.IDictionary<string, object>, System.Func<System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>, System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>>>;
+    using MidFactory = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Func<System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>, System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>>;
+    using MidFunc = System.Func<System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>, System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>;
 
     /// <summary>
     /// Hosts an OWIN web server in the process.
     /// </summary>
-    public class WebServer
+    public class WebServer : IDisposable
     {
         /// <summary>
         /// The maximum connections.
@@ -39,12 +39,42 @@ namespace Common.Web.Server
         /// <summary>
         /// The log stream.
         /// </summary>
-        private ILogMessageStream log;
+        private readonly ILogMessageStream log;
+
+        /// <summary>
+        /// The synchronize root.
+        /// </summary>
+        private readonly object syncRoot = new object();
+
+        /// <summary>
+        /// The connections available event.
+        /// </summary>
+        private readonly ManualResetEvent connectionsAvailableEvent = new ManualResetEvent(true);
+
+        /// <summary>
+        /// The active connections.
+        /// </summary>
+        private readonly List<HttpListenerContext> activeConnections = new List<HttpListenerContext>();
+
+        /// <summary>
+        /// The application.
+        /// </summary>
+        private readonly AppFunc app;
+
+        /// <summary>
+        /// The startup callback.
+        /// </summary>
+        private readonly Action<BuildFunc> startup;
+
+        /// <summary>
+        /// The binding.
+        /// </summary>
+        private readonly Binding binding;
 
         /// <summary>
         /// The http listener.
         /// </summary>
-        private HttpListener listener = new HttpListener();
+        private readonly HttpListener listener = new HttpListener();
 
         /// <summary>
         /// The thread that will process requests.
@@ -52,39 +82,9 @@ namespace Common.Web.Server
         private Thread requestProcessor;
 
         /// <summary>
-        /// The synchronize root.
-        /// </summary>
-        private object syncRoot = new object();
-
-        /// <summary>
-        /// The connections available event.
-        /// </summary>
-        private ManualResetEvent connectionsAvailableEvent = new ManualResetEvent(true);
-
-        /// <summary>
-        /// The active connections.
-        /// </summary>
-        private List<HttpListenerContext> activeConnections = new List<HttpListenerContext>();
-
-        /// <summary>
-        /// The application.
-        /// </summary>
-        private AppFunc app;
-
-        /// <summary>
-        /// The startup callback.
-        /// </summary>
-        private Action<BuildFunc> startup;
-
-        /// <summary>
         /// The request handler.
         /// </summary>
         private AppFunc requestHandler;
-
-        /// <summary>
-        /// The binding.
-        /// </summary>
-        private readonly Binding binding;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WebServer" /> class.
@@ -119,6 +119,14 @@ namespace Common.Web.Server
             this.app = app;
             this.startup = startup;
             this.binding = binding ?? Binding.Http();
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="WebServer"/> class.
+        /// </summary>
+        ~WebServer()
+        {
+            this.Dispose(false);
         }
 
         /// <summary>
@@ -161,6 +169,31 @@ namespace Common.Web.Server
         }
 
         /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing">
+        /// <c>true</c> to release both managed and unmanaged resources; 
+        /// <c>false</c> to release only unmanaged resources.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.listener.Close();
+                this.connectionsAvailableEvent.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Thread procedure to process Requests.
         /// </summary>
         private void RequestProcessorThread()
@@ -194,7 +227,7 @@ namespace Common.Web.Server
                     }
                 }
 
-                InvokeRequestHandler(context);
+                this.InvokeRequestHandler(context);
             } 
             while (true);
         }
