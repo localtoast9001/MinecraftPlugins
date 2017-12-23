@@ -79,5 +79,10 @@ namespace Common.Web.Owin
         /// The client certificate key.
         /// </summary>
         public const string ClientCertificate = "ssl.ClientCertificate";
+
+        /// <summary>
+        /// The request user key.
+        /// </summary>
+        public const string RequestUser = "owin.RequestUser";
     }
 }

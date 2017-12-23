@@ -8,6 +8,7 @@ namespace Common.Web.Owin
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Security.Claims;
     using System.Security.Cryptography.X509Certificates;
 
     /// <summary>
@@ -167,6 +168,15 @@ namespace Common.Web.Owin
         {
             get { return this.Inner.ClientCertificate(); }
             set { this.Inner.SetClientCertificate(value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the request user.
+        /// </summary>
+        public ClaimsPrincipal RequestUser
+        {
+            get { return this.Inner.RequestUser(); }
+            set { this.Inner.SetRequestUser(value); }
         }
     }
 }

@@ -48,3 +48,5 @@ obj/*
 /src/Common.Web.Owin/bin/Debug
 /src/Common.Web.Owin/obj/Debug
 /src/Common.Web.Server/obj/Debug
+/src/Common.Web.Owin.Middleware/bin/Debug
+/src/Common.Web.Owin.Middleware/obj/Debug

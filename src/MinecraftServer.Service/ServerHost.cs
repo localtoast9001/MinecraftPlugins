@@ -3,7 +3,6 @@
 // Copyright (C) Jon Rowlett. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-
 namespace MinecraftServer.Service
 {
     using System;
@@ -68,6 +67,32 @@ namespace MinecraftServer.Service
         public void Stop()
         {
             this.process.Stop();
+        }
+
+        /// <summary>
+        /// Says the specified text.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <exception cref="System.ArgumentNullException">text is null or empty.</exception>
+        public void Say(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                throw new ArgumentNullException("text");
+            }
+
+            string[] lines = text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string line in lines)
+            {
+                Message message = new Message
+                {
+                    Text = "/say " + line + Environment.NewLine,
+                    Severity = Severity.Output,
+                    Time = DateTime.UtcNow
+                };
+
+                this.process.Post(message);
+            }
         }
 
         private void OnPost(MinecraftLogEntry message)

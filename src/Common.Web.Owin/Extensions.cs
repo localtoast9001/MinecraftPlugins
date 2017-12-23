@@ -9,7 +9,9 @@ namespace Common.Web.Owin
     using System.Collections.Generic;
     using System.IO;
     using System.Net;
+    using System.Security.Claims;
     using System.Security.Cryptography.X509Certificates;
+    using System.Threading.Tasks;
     using OwinEnvironment = System.Collections.Generic.IDictionary<string, object>;
 
     /// <summary>
@@ -322,6 +324,32 @@ namespace Common.Web.Owin
         public static void SetClientCertificate(this OwinEnvironment environment, X509Certificate value)
         {
             environment[Keys.ClientCertificate] = value;
+        }
+
+        /// <summary>
+        /// Gets the request user.
+        /// </summary>
+        /// <param name="environment">The environment.</param>
+        /// <returns>The request user or <c>null</c>.</returns>
+        public static ClaimsPrincipal RequestUser(this OwinEnvironment environment)
+        {
+            object raw = null;
+            if (!environment.TryGetValue(Keys.RequestUser, out raw))
+            {
+                return null;
+            }
+
+            return raw as ClaimsPrincipal;
+        }
+
+        /// <summary>
+        /// Sets the request user.
+        /// </summary>
+        /// <param name="environment">The environment.</param>
+        /// <param name="value">The value.</param>
+        public static void SetRequestUser(this OwinEnvironment environment, ClaimsPrincipal value)
+        {
+            environment[Keys.RequestUser] = value;
         }
     }
 }
