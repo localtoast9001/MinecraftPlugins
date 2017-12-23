@@ -21,6 +21,7 @@ namespace MinecraftServer.Service
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        /// <param name="args">The arguments.</param>
         public static void Main(string[] args)
         {
             if (args.Length == 1 && string.Equals(args[0], "/DEBUG", StringComparison.OrdinalIgnoreCase))
@@ -28,11 +29,13 @@ namespace MinecraftServer.Service
                 ConsoleLogMessageStream log = new ConsoleLogMessageStream();
                 try
                 {
-                    ServerWrapperComponent service = new ServerWrapperComponent();
-                    service.Start(log, args);
-                    Console.WriteLine("Press enter to exit.");
-                    Console.ReadKey();
-                    service.Stop();
+                    using (ServerWrapperComponent service = new ServerWrapperComponent())
+                    {
+                        service.Start(log, args);
+                        Console.WriteLine("Press enter to exit.");
+                        Console.ReadKey();
+                        service.Stop();
+                    }
                 }
                 catch (Exception ex)
                 {

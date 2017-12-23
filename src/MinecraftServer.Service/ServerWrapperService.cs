@@ -42,7 +42,7 @@ namespace MinecraftServer.Service
         /// </summary>
         public ServerWrapperService()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         /// <summary>
@@ -68,6 +68,8 @@ namespace MinecraftServer.Service
             {
                 this.fileLog.Dispose();
             }
+
+            this.component.Dispose();
         }
     }
 }

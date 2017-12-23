@@ -1,6 +1,10 @@
-﻿using System.Resources;
+﻿// -----------------------------------------------------------------------
+// <copyright file="AssemblyInfo.cs" company="Jon Rowlett">
+// Copyright (C) Jon Rowlett. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 using System.Reflection;
-using System.Runtime.CompilerServices;
+using System.Resources;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
@@ -36,4 +40,3 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: NeutralResourcesLanguage("en-US")]
-

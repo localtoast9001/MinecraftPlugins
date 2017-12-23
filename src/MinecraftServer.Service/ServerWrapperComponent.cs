@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ServerWrapperService.cs" company="Jon Rowlett">
+// <copyright file="ServerWrapperComponent.cs" company="Jon Rowlett">
 // Copyright (C) Jon Rowlett. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -14,29 +14,47 @@ namespace MinecraftServer.Service
     using System.Text;
     using System.Threading.Tasks;
     using Common.Logging;
-    using Common.Web.Server;
     using Common.Web.Owin;
     using Common.Web.Owin.Middleware;
+    using Common.Web.Server;
 
     using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
-    using MidFunc = System.Func<System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>, System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>;
-    using MidFactory = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Func<System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>, System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>>;
     using BuildFunc = System.Action<System.Func<System.Collections.Generic.IDictionary<string, object>, System.Func<System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>, System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>>>;
+    using MidFactory = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Func<System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>, System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>>;
+    using MidFunc = System.Func<System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>, System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>;
 
     /// <summary>
     /// Core service logic that can be invoked in console mode or service mode.
     /// </summary>
-    internal class ServerWrapperComponent
+    internal class ServerWrapperComponent : IDisposable
     {
+        /// <summary>
+        /// The server host.
+        /// </summary>
         private ServerHost host;
 
+        /// <summary>
+        /// The web server.
+        /// </summary>
         private WebServer webServer;
 
+        /// <summary>
+        /// The controller.
+        /// </summary>
         private ServerApiController controller;
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="ServerWrapperComponent"/> class.
+        /// </summary>
+        ~ServerWrapperComponent()
+        {
+            this.Dispose(false);
+        }
 
         /// <summary>
         /// When implemented in a derived class, executes when a Start command is sent to the service by the Service Control Manager (SCM) or when the operating system starts (for a service that starts automatically). Specifies actions to take when the service starts.
         /// </summary>
+        /// <param name="log">The log.</param>
         /// <param name="args">Data passed by the start command.</param>
         public void Start(ILogMessageStream log, string[] args)
         {
@@ -68,6 +86,31 @@ namespace MinecraftServer.Service
         {
             this.webServer.Stop();
             this.host.Stop();
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing">
+        /// <c>true</c> to release both managed and unmanaged resources; 
+        /// <c>false</c> to release only unmanaged resources.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.webServer.Dispose();
+                this.host.Dispose();
+            }
         }
 
         /// <summary>

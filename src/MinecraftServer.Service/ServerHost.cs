@@ -17,19 +17,30 @@ namespace MinecraftServer.Service
     using Minecraft.Management;
 
     /// <summary>
-    /// Wraps the process and adds management abstractios.
+    /// Wraps the process and adds management abstractions.
     /// </summary>
-    public class ServerHost
+    public class ServerHost : IDisposable
     {
         /// <summary>
         /// The process.
         /// </summary>
-        private ProcessHost process;
+        private readonly ProcessHost process;
 
-        private MessageConsumer messageConsumer = new MessageConsumer();
+        /// <summary>
+        /// The message consumer.
+        /// </summary>
+        private readonly MessageConsumer messageConsumer = new MessageConsumer();
 
-        private List<MinecraftLogEntry> messages = new List<MinecraftLogEntry>();
+        /// <summary>
+        /// The messages.
+        /// </summary>
+        private readonly List<MinecraftLogEntry> messages = new List<MinecraftLogEntry>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServerHost"/> class.
+        /// </summary>
+        /// <param name="minecraftDirectory">The minecraft directory.</param>
+        /// <param name="jarFileName">Name of the jar file.</param>
         public ServerHost(
             string minecraftDirectory,
             string jarFileName)
@@ -39,12 +50,20 @@ namespace MinecraftServer.Service
             string arguments = string.Format(
                 "-Xmx1024M -Xms1024M -jar {0} nogui",
                 jarFileName);
-            process = new ProcessHost(
+            this.process = new ProcessHost(
                 "java.exe", 
                 arguments, 
                 "stop",
                 minecraftDirectory);
-            process.RegisterOutputConsumer(this.messageConsumer);
+            this.process.RegisterOutputConsumer(this.messageConsumer);
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="ServerHost"/> class.
+        /// </summary>
+        ~ServerHost()
+        {
+            this.Dispose(false);
         }
 
         /// <summary>
@@ -95,6 +114,34 @@ namespace MinecraftServer.Service
             }
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing">
+        /// <c>true</c> to release both managed and unmanaged resources;
+        /// <c>false</c> to release only unmanaged resources.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.process.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Called when an output message is posted.
+        /// </summary>
+        /// <param name="message">The message.</param>
         private void OnPost(MinecraftLogEntry message)
         {
             lock (this.messages)
@@ -103,10 +150,21 @@ namespace MinecraftServer.Service
             }
         }
 
+        /// <summary>
+        /// Callback to consume messages.
+        /// </summary>
+        /// <seealso cref="ConsoleHost.IMessageConsumer" />
         private class MessageConsumer : IMessageConsumer
         {
+            /// <summary>
+            /// Gets or sets the post callback.
+            /// </summary>
             public Action<MinecraftLogEntry> PostCallback { get; set; }
 
+            /// <summary>
+            /// Posts the specified message.
+            /// </summary>
+            /// <param name="message">The message.</param>
             public void Post(Message message)
             {
                 Console.WriteLine(message.Text);
@@ -116,17 +174,6 @@ namespace MinecraftServer.Service
                     this.PostCallback(logEntry);
                 }
             }
-        }
-
-        private class AsyncCommand : IAsyncResult
-        {
-            public bool IsCompleted { get; set; }
-
-            public WaitHandle AsyncWaitHandle { get; set; }
-
-            public object AsyncState { get; set; }
-
-            public bool CompletedSynchronously { get; set; }
         }
     }
 }
