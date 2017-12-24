@@ -264,6 +264,10 @@ namespace Common.Web.Server
                 this.log.Log(LogMessage.Information(logText));
                 context.Response.Close();
             }
+            catch (Exception ex)
+            {
+                this.log.Log(LogMessage.Critical(ex.ToString()));
+            }
             finally
             {
                 lock (this.syncRoot)

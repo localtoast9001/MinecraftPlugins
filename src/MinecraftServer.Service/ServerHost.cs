@@ -12,6 +12,7 @@ namespace MinecraftServer.Service
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using Common.Logging;
     using ConsoleHost;
     using ConsoleHost.Utility;
     using Minecraft.Management;
@@ -22,6 +23,11 @@ namespace MinecraftServer.Service
     public class ServerHost : IDisposable
     {
         /// <summary>
+        /// The log.
+        /// </summary>
+        private readonly ILogMessageStream log;
+
+        /// <summary>
         /// The process.
         /// </summary>
         private readonly ProcessHost process;
@@ -29,7 +35,7 @@ namespace MinecraftServer.Service
         /// <summary>
         /// The message consumer.
         /// </summary>
-        private readonly MessageConsumer messageConsumer = new MessageConsumer();
+        private readonly MessageConsumer messageConsumer;
 
         /// <summary>
         /// The messages.
@@ -37,14 +43,24 @@ namespace MinecraftServer.Service
         private readonly List<MinecraftLogEntry> messages = new List<MinecraftLogEntry>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServerHost"/> class.
+        /// Initializes a new instance of the <see cref="ServerHost" /> class.
         /// </summary>
+        /// <param name="log">The log.</param>
         /// <param name="minecraftDirectory">The minecraft directory.</param>
         /// <param name="jarFileName">Name of the jar file.</param>
+        /// <exception cref="System.ArgumentNullException">log</exception>
         public ServerHost(
+            ILogMessageStream log,
             string minecraftDirectory,
             string jarFileName)
         {
+            if (log == null)
+            {
+                throw new ArgumentNullException("log");
+            }
+
+            this.log = log;
+            this.messageConsumer = new MessageConsumer(this.log);
             this.messageConsumer.PostCallback = this.OnPost;
 
             string arguments = string.Format(
@@ -157,6 +173,26 @@ namespace MinecraftServer.Service
         private class MessageConsumer : IMessageConsumer
         {
             /// <summary>
+            /// Initializes a new instance of the <see cref="MessageConsumer"/> class.
+            /// </summary>
+            /// <param name="log">The log.</param>
+            /// <exception cref="System.ArgumentNullException">log is <c>null</c>.</exception>
+            public MessageConsumer(ILogMessageStream log)
+            {
+                if (log == null)
+                {
+                    throw new ArgumentNullException("log");
+                }
+
+                this.Log = log;
+            }
+
+            /// <summary>
+            /// Gets or sets the log.
+            /// </summary>
+            public ILogMessageStream Log { get; private set; }
+            
+            /// <summary>
             /// Gets or sets the post callback.
             /// </summary>
             public Action<MinecraftLogEntry> PostCallback { get; set; }
@@ -167,11 +203,20 @@ namespace MinecraftServer.Service
             /// <param name="message">The message.</param>
             public void Post(Message message)
             {
-                Console.WriteLine(message.Text);
-                MinecraftLogEntry logEntry = MinecraftLogReader.ParseLine(message.Text);
-                if (this.PostCallback != null)
+                this.Log.Log(LogMessage.Create(
+                    message.Severity == Severity.Error ? LogMessageSeverity.Error : LogMessageSeverity.Information,
+                    message.Text));
+                try
                 {
-                    this.PostCallback(logEntry);
+                    MinecraftLogEntry logEntry = MinecraftLogReader.ParseLine(message.Text);
+                    if (this.PostCallback != null)
+                    {
+                        this.PostCallback(logEntry);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.Log.Log(LogMessage.Critical(ex.ToString()));
                 }
             }
         }

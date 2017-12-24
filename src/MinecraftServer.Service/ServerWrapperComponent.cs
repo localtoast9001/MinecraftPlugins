@@ -59,6 +59,7 @@ namespace MinecraftServer.Service
         public void Start(ILogMessageStream log, string[] args)
         {
             this.host = new ServerHost(
+                log,
                 ConfigurationManager.AppSettings["MinecraftDirectory"],
                 ConfigurationManager.AppSettings["JarFileName"]);
             try
